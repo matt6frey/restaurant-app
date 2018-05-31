@@ -31,6 +31,8 @@ CREATE TABLE IF NOT EXISTS order_list (
     ETA INTEGER --- in seconds
 );
 
+-- Insert Menu Items upon table creation
+-- Breakfast
 INSERT INTO menu VALUES (1, 'Italian Breakfast Brushcetta', 'Delicious lightly roasted ciabatta topped with ripe tomatoes, red onion, fresh basil, poached eggs and avocado.', 13.50, 'breakfast', 420);
 INSERT INTO menu VALUES (2, 'Eggs Benedict', 'Lightly roasted ciabatta topped with 2 rashers of bacon, 2 eggs and homemade hollandaise sauce. Served with shredded potatoes.', 11.50, 'breakfast',500);
 INSERT INTO menu VALUES (3, 'Bacon & Eggs', '2 eggs any style, 2 rashers of bacon, served with sliced tomatoes, basil and shredded potatoes.', 9.99, 'breakfast', 450 );
