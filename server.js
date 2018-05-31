@@ -45,6 +45,7 @@ app.get("/", (req, res) => {
   knex.select('*').from('menu').asCallback( (err, query) => {
     console.log("ERR: ", err, "\nQUE: ", query, typeof query);
   });
+
   // console.log(food);
   res.render("index");
 });
