@@ -1,17 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Home Page</title>
-
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
-  </head>
-
+  <% include ./partials/_header.ejs %>
   <body>
-    <h1>Hello World!</h1>
+
+    <div class="menu_container">
+
+      <section class="categories">
+        <button class="all" type="submit">
+         <span class="all_text">All</span>
+        </button>
+        <button class="breakfast" type="submit">
+         <span class="breakfast_text">Breakfast</span>
+        </button>
+        <button class="lunch" type="submit">
+         <span class="lunch_text">Lunch</span>
+        </button>
+        <button class="dinner" type="submit">
+         <span class="dinner_text">Dinner</span>
+        </button>
+      </section>
+
+      <div class="items_container">
+        <section class="the_bird_special">
+          <img class="logo" src="/images/the_bird_special.jpg" style="width:200px;height:150px;">
+          <span class="the_bird_special_text">The Bird Special</span>
+          <span class="the_bird_special_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in cursus odio.</span>
+          <span class="the_bird_special_price">$600</span>
+        <form class="check_box" action='/.../' method='...'>
+          <input type="checkbox">
+        </form>
+         <select class="dropdown">
+          <option selected>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+         </select>
+        </div>
+
+        <section class="menu_footer">
+          <button class="order" type="submit">
+            <span class="order_text">Order</span>
+          </button>
+        </section>
+        <form name ='order_form' id='order_form' action='/.../' method='...'>
+          <span class="name_text">Name</span>
+          <textarea name='text' class="name" placeholder="John Smith"></textarea>
+          <span class="number_text">Number</span>
+          <textarea name='text' class="number" placeholder="123-456-7890"></textarea>
+          <input type="submit" value="Place Order">
+        </form>
+      </section>
+
+    </div>
+
   </body>
 </html>

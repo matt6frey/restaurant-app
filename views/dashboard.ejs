@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% include ./partials/_header.ejs %>
+  <body>
+
+     <div class="order_container">
+       <section class="order_container_header">
+        <span class="order_id">Order ID: 123</span>
+        <span class="total">Total: $22.98</span>
+       </section>
+        <section class="the_bird_special">
+          <img class="logo" src="/images/the_bird_special.jpg" style="width:200px;height:150px;">
+          <span class="the_bird_special_text">The Bird Special</span>
+          <span class="the_bird_special_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in cursus odio.</span>
+          <span class="the_bird_special_price">$600</span>
+        <span class="quantity">Quanity: 2</span>
+        </section>
+        <section class="order_container_footer">
+          <span class="eta">Ready In: 20 minutes</span>
+          <form name ='notify_form' id='notify_form' action='/.../' method='...'>
+            <textarea name='notify_text' class="notify_text"></textarea>
+            <input type="submit" value="Notify">
+          </form>
+        </section>
+      </div>
+
+  </body>
+</html>
