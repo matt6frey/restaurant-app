@@ -1,7 +1,6 @@
---- Restaurant Schema
-
 CREATE SCHEMA IF NOT EXISTS restaurant AUTHORIZATION labber;
 
+--- Restaurant Schema
 CREATE TABLE IF NOT EXISTS users (
     unique_id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255),
@@ -31,6 +30,9 @@ CREATE TABLE IF NOT EXISTS order_list (
     ETA INTEGER --- in seconds
 );
 
+
+
+
 -- Insert Menu Items upon table creation
 -- Breakfast
 INSERT INTO menu VALUES (1, 'Italian Breakfast Brushcetta', 'Delicious lightly roasted ciabatta topped with ripe tomatoes, red onion, fresh basil, poached eggs and avocado.', 13.50, 'breakfast', 420);
@@ -48,3 +50,10 @@ INSERT INTO menu VALUES (10, 'Spaghetti Aglio, Olio & Peperoncino', 'Lots of gar
 INSERT INTO menu VALUES (11, 'Capellini Ai Pomodori Freschi', 'Angel hair pasta with fresh tomatoes, olive oil, garlic & basil.', 14.99, 'dinner', 600 );
 INSERT INTO menu VALUES (12, 'Eggplant Parmigiana', 'Layers of oven grilled eggplant with mozzarella in our housemade pomodoro sauce. Served with pasta.', 16.99, 'dinner', 530 );
 INSERT INTO menu VALUES (13, 'Pappardelle Ai Gamberi', 'Sautéed shrimp in our house-made pesto cream sauce served over wide egg noodles.', 10.99, 'dinner', 600);
+
+GRANT ALL PRIVILEGES ON SCHEMA restaurant TO labber;
+ALTER DATABASE midterm OWNER TO labber;
+ALTER TABLE menu OWNER TO labber;
+ALTER TABLE order_list OWNER TO labber;
+ALTER TABLE order_ticket OWNER TO labber;
+ALTER TABLE users OWNER TO labber;

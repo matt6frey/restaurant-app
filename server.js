@@ -40,7 +40,26 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
+  // console.log("REQ: \n\n", req.body, "\n\nRES: \n\n", res);
+  let menu = [];
+  knex.select('*').from('menu').asCallback( (err, query) => {
+    console.log("ERR: ", err, "\nQUE: ", query, typeof query);
+  });
+  // console.log(food);
   res.render("index");
+});
+
+// To place orders
+app.post('/order', (req,res) => {
+
+});
+
+app.get('/order/:id', (req,res) => {
+
+});
+
+app.get('/dashboard/:id', (req,res) => {
+
 });
 
 app.listen(PORT, () => {
