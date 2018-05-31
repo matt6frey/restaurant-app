@@ -28,7 +28,6 @@ CREATE TABLE IF NOT EXISTS order_list (
     meni_id INTEGER,
     order_id INTEGER,
     ETA INTEGER --- in seconds
-
 );
 
 
