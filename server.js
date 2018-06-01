@@ -17,6 +17,8 @@ const knexLogger  = require('knex-logger');
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
 
+const renderItemContainer = require('./public/scripts/app.js')
+
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -41,14 +43,38 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  // console.log("REQ: \n\n", req.body, "\n\nRES: \n\n", res);
   let menu = [];
-  knex.select('*').from('menu').asCallback( (err, query) => {
-    console.log("ERR: ", err, "\nQUE: ", query, typeof query);
-  });
 
-  // console.log(food);
-  res.render("index");
+  knex.select('*').from('menu').asCallback( (err, query) => {
+    const vars = {render: query};
+    console.log(query);
+
+    res.render("index", vars);
+  });
+});
+
+// Order page
+app.get("/order/example_id", (req, res) => {
+  let menu = [];
+
+   knex('menu').join('order_ticket', 'meni_id', '=', 'users.unique_id').asCallback( (err, query) => {
+     const vars = {render: query};
+     console.log(query);
+
+     res.render("order", vars);
+   });
+});
+
+// Dashboard page
+app.get("/dashboard", (req, res) => {
+  let menu = [];
+
+  knex.select('*').from('order_list').asCallback( (err, query) => {
+    const vars = {render: query};
+    console.log(query);
+
+    res.render("dashboard", vars);
+  });
 });
 
 // To place orders
@@ -60,6 +86,7 @@ app.get('/order/:id', (req,res) => {
 
 });
 
+//owner's dashboard
 app.get('/dashboard/:id', (req,res) => {
 
 });
