@@ -27,6 +27,7 @@ app.use(knexLogger(knex));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
@@ -44,20 +45,70 @@ app.get("/", (req, res) => {
   // console.log("REQ: \n\n", req.body, "\n\nRES: \n\n", res);
   let menu = [];
   knex.select('*').from('menu').asCallback( (err, query) => {
-    console.log("ERR: ", err, "\nQUE: ", query, typeof query);
+    menu.push(query);
   });
-
-  // console.log(food);
-  res.render("index");
+  // Send Menu items to home page.
+  res.render("index", menu);
 });
 
 // To place orders
 app.post('/order', (req,res) => {
+  //console.log(req.body);
+  //console.log(req);
+  const uName = req.body.name;
+  const uPhone = req.body.phone;
+  const orderedAt = new Date();
+  let orderedItems = Object.values(req.body.order);
+  console.log(orderedItems);
+  let eta;
 
-});
 
+  knex.from('users').where('name', uName).select('unique_id').then( function (res) {
+    if(res.length < 1) {
+      //create user
+      knex('users').insert({ name: uName, phone_num: uPhone }).returning('*').then( function (newUser) {
+        // creates ticket
+        knex('ordered_ticket').insert({ user_id: newUser[0].unique_id, time_ordered: orderedAt }).then( function (newOrder) {
+          console.log("On new user: ", newOrder);
+          // gets order menu items
+          knex('menu').whereIn('name', orderedItems).select('*').then(function (items) {
+            // Insert menu items into order_list
+            items.forEach(function (item) {
+              knex('order_list').insert({ meni_id: item.unique_id, order_id: newOrder[0].unique_id, ETA: Number(item.eta) }).returning('*').then( function (result) {
+                  console.log(result);
+              });
+            });
+          });
+        });
+      });
+    } else {
+      // creates ticket
+      knex('order_ticket').insert({ user_id: res[0].unique_id, time_ordered: orderedAt }).returning('*').then( function (newOrder) {
+          console.log("On old user: ", newOrder);
+          // gets order menu items
+          knex('menu').whereIn('name', orderedItems).select('*').then(function (items) {
+            console.log(items);
+            // Insert menu items into order_list
+            items.forEach(function (item) {
+              console.log(item.eta);
+              knex('order_list').insert({ meni_id: item.unique_id, order_id: newOrder[0].unique_id, ETA: Number(item.eta) }).returning('*').then( function (result) {
+                  console.log(result);
+              });
+            });
+          });
+      });
+      //create user
+    }
+  });
+}); // End request
+
+// Route for user order
 app.get('/order/:id', (req,res) => {
-
+  let user_order = [];
+  knex.select('*').from('menu').asCallback( (err, query) => {
+    user_order.push(query);
+  });
+  res.render('order', user_order);
 });
 
 app.get('/dashboard/:id', (req,res) => {
