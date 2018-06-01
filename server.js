@@ -55,7 +55,7 @@ app.get("/", (req, res) => {
 app.get("/order/example_id", (req, res) => {
   let menu = [];
 
-   knex('menu').join('order_ticket', 'meni_id', '=', 'users.unique_id').asCallback( (err, query) => {
+   knex('menu').leftJoin('order_ticket', 'meni_id', '=', 'users.unique_id').asCallback( (err, query) => {
      const vars = {render: query};
      console.log(query);
 
@@ -75,112 +75,41 @@ app.get("/dashboard", (req, res) => {
   });
 });
 
-// To place orders
-app.post('/order', (req,res) => {
+// Join tests
+// Dashboard page
+app.get("/join", (req, res) => {
+  let menu = [];
 
-  knex.select('*').from('users').where('phone_num', 'like', `${req.body.phone}`).andWhere('name', 'like', `${req.body.name}`).asCallback(function(error, result) {
-      //checks if exists in database
-      if (result.length === 0) {
-        console.log("doesn't exist");
-        //if it user passes captcha test on website, the following puts name and number into databse if doesn't exist
-        knex('users').insert([
-        {name: req.body.name,
-         phone_num: req.body.phone}
-          ]).asCallback(function(error, rows) {
-          knex.select('*').from('users').asCallback(function(error, rows) {
-           // console.log(rows);
-            knex.select('unique_id').from('users').where('name', 'like', `${req.body.name}`).asCallback(function(error, result) {
-          knex('order_ticket').insert([
-            {user_id: result[0].unique_id,
-             time_ordered: new Date}
-              ]).asCallback(function(error, rows) {
-              knex.select('*').from('order_ticket').asCallback(function(error, rows) {
-                console.log(rows);
-             });
-           });
+  knex('order_list').join('menu','order_list.meni_id', 'menu.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price').then( (allOrders) => {
 
-         });
-        //puts order ticket id into order_list to be associated with user
-        for (let item in req.body.order) {
-          //gets menu id from menu table
-         knex.select('unique_id').from('menu').where('name', 'like', `${req.body.order[item]}`).asCallback(function(error, result) {
-           var meniID = result[0].unique_id;
-           //gets userid from users table
-           knex.select('unique_id').from('users').where('name', 'like', `${req.body.name}`).asCallback(function(error, result)  {
-              var userID = result[0].unique_id;
-              //gets orderid from order_ticket table
-            knex.select('unique_id').from('order_ticket').where('user_id', 'like', `${userID}`).asCallback(function(error, result)  {
-                var orderID = result[0].unique_id;
-                //inserts menuid and order id into order_list
-                knex('order_list').insert([
-                {meni_id: meniID,
-                 order_id: orderID}
-                  ]).asCallback(function(error, rows) {
-                  knex.select('*').from('order_list').asCallback(function(error, rows) {
-                   // console.log(rows);
-                   // Complete redirect user to home.
-                   res.status(302).redirect('/');
-                 });
-               });
-
-
-            });
-
-           });
-
-         });
-        }
-         });
-       });
-      } else {
-        //makes new order_ticket with timestamp
-        knex.select('unique_id').from('users').where('name', 'like', `${req.body.name}`).asCallback(function(error, result) {
-          knex('order_ticket').insert([
-            {user_id: result[0].unique_id,
-             time_ordered: new Date}
-              ]).asCallback(function(error, rows) {
-              knex.select('*').from('order_ticket').asCallback(function(error, rows) {
-                console.log(rows);
-             });
-           });
-
-         });
-        //puts order ticket id into order_list to be associated with user
-        for (let item in req.body.order) {
-          //gets menu id from menu table
-         knex.select('unique_id').from('menu').where('name', 'like', `${req.body.order[item]}`).asCallback(function(error, result) {
-           var meniID = result[0].unique_id;
-           //gets userid from users table
-           knex.select('unique_id').from('users').where('name', 'like', `${req.body.name}`).asCallback(function(error, result)  {
-              var userID = result[0].unique_id;
-              //gets orderid from order_ticket table
-            knex.select('unique_id').from('order_ticket').where('user_id', 'like', `${userID}`).asCallback(function(error, result)  {
-                var orderID = result[0].unique_id;
-                //inserts menuid and order id into order_list
-                knex('order_list').insert([
-                {meni_id: meniID,
-                 order_id: orderID}
-                  ]).asCallback(function(error, rows) {
-                  knex.select('*').from('order_list').asCallback(function(error, rows) {
-                   console.log(rows);
-                   // Complete: redirect user to home
-                   res.status(302).redirect('/');
-                 });
-               });
-
-
-            });
-
-           });
-
-         });
-        }
+    let marker = '';
+    let namePos = 0;
+    let totalPrice = 0;
+    let obj = {};
+    allOrders.forEach( (item) => {
+      if (marker === '' || marker !== item.order_id) {
+        namePos = 0;
+        totalPrice = 0;
+        marker = item.order_id;
+        obj[item.order_id] = [];
+        console.log(obj[item.order_id]);
       }
-   });
+
+      let name = "menuItem" + namePos;
+      obj[item.order_id].push({ name: item.name, description: item.description, price: item.price });
+    });
+    // Object.keys(obj).forEach( (object) => {
+
+    // });
+    //console.log(Object.values(obj)); // testing
+    console.log(obj);
+    const allOrderList = [obj];
+     res.status(200).render('dashboard', allOrderList);
+  });
 });
 
 
-/*// To place orders
+// To place orders
 app.post('/order', (req,res) => {
   //console.log(req.body);
   //console.log(req);
@@ -188,31 +117,33 @@ app.post('/order', (req,res) => {
   const uPhone = req.body.phone;
   const orderedAt = new Date();
   let orderedItems = Object.values(req.body.order);
-  console.log(orderedItems);
+  // console.log(orderedItems);
   let eta;
 
 
-  knex.from('users').where('name', uName).select('unique_id').then( function (res) {
-    if(res.length < 1) {
+  knex.from('users').where('name', uName).select('unique_id').then( function (resp) {
+    if(resp.length < 1) {
       //create user
       knex('users').insert({ name: uName, phone_num: uPhone }).returning('*').then( function (newUser) {
         // creates ticket
-        knex('ordered_ticket').insert({ user_id: newUser[0].unique_id, time_ordered: orderedAt }).then( function (newOrder) {
+        knex('order_ticket').insert({ user_id: newUser[0].unique_id, time_ordered: orderedAt }).returning('*').then( function (newOrder) {
           console.log("On new user: ", newOrder);
           // gets order menu items
+          console.log(newOrder);
           knex('menu').whereIn('name', orderedItems).select('*').then(function (items) {
             // Insert menu items into order_list
             items.forEach(function (item) {
-              knex('order_list').insert({ meni_id: item.unique_id, order_id: newOrder[0].unique_id, ETA: Number(item.eta) }).returning('*').then( function (result) {
+              knex('order_list').insert({ meni_id: item.unique_id, order_id: newOrder[0].unique_id, eta: Number(item.eta) }).returning('*').then( function (result) {
                   console.log(result);
               });
-            });
+            }); // outside forEach
+            res.redirect('/');
           });
         });
       });
     } else {
       // creates ticket
-      knex('order_ticket').insert({ user_id: res[0].unique_id, time_ordered: orderedAt }).returning('*').then( function (newOrder) {
+      knex('order_ticket').insert({ user_id: resp[0].unique_id, time_ordered: orderedAt }).returning('*').then( function (newOrder) {
           console.log("On old user: ", newOrder);
           // gets order menu items
           knex('menu').whereIn('name', orderedItems).select('*').then(function (items) {
@@ -220,17 +151,17 @@ app.post('/order', (req,res) => {
             // Insert menu items into order_list
             items.forEach(function (item) {
               console.log(item.eta);
-              knex('order_list').insert({ meni_id: item.unique_id, order_id: newOrder[0].unique_id, ETA: Number(item.eta) }).returning('*').then( function (result) {
+              knex('order_list').insert({ meni_id: item.unique_id, order_id: newOrder[0].unique_id, eta: Number(item.eta) }).returning('*').then( function (result) {
                   console.log(result);
               });
-            });
+            }); // Outside forEach
+            res.redirect('/');
           });
       });
-      //create user
     }
   });
 }); // End request
-*/
+
 // Route for user order
 app.get('/order/:id', (req,res) => {
   let user_order = [];
