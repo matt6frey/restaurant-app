@@ -16,7 +16,7 @@
          <img class="logo" src="/images/<%= item.name %>.jpg" style="width:200px;height:150px;">
          <span class="food_name"><%= item.items[prop][0] %></span>
           <span class="food_description"><%= item.items[prop][2] %></span>
-          <span class="food_price"><%= item.items[prop][3] %></span>
+          <span class="food_price">$<%= item.items[prop][3] %></span>
           <span class="quantity">Quanity: <%= item.items[prop][1] %></span>
         </section>
          <% } %>
