@@ -6,19 +6,23 @@
 
      <div class="order_container">
        <section class="order_container_header">
-        <span class="order_id">Order ID: 123</span>
-        <span class="date">June 21 2018</span>
+        <span class="order_id">Order ID: <%= render.order_id %></span>
+        <span class="date">Time of Order: <%= render.time_ordered %></span>
        </section>
+
+       <% for (let item in render.items) { %>
         <section class="the_bird_special">
-          <img class="logo" src="/images/the_bird_special.jpg" style="width:200px;height:150px;">
-          <span class="the_bird_special_text">The Bird Special</span>
-          <span class="the_bird_special_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in cursus odio.</span>
-          <span class="the_bird_special_price">$600</span>
-          <span class="quantity">Quantity: 2</span>
+          <img class="logo" src="/images/<%= render.items[item][0] %>.jpg" style="width:200px;height:150px;">
+           <span class="food_name"><%= render.items[item][0] %></span>
+            <span class="food_description"><%= render.items[item][2] %></span>
+          <span class="the_bird_special_price"><%= render.items[item][3] %></span>
+          <span class="quantity">Quantity: <%= render.items[item][1] %></span>
         </section>
+        <% } %>
+
         <section class="order_container_footer">
-          <span class="eta">Ready In: 20 minutes</span>
-          <span class="total">Total: $22.98</span>
+          <span class="eta">Ready In: ETA FROM OWNER HERE</span>
+          <span class="total">Total: $<%= render.total_price %></span>
         </section>
       </div>
 
