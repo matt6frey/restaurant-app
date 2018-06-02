@@ -65,21 +65,6 @@ app.get("/order/example_id", (req, res) => {
 
 // Dashboard page
 app.get("/dashboard", (req, res) => {
-  let menu = [];
-
-  knex.select('*').from('order_list').asCallback( (err, query) => {
-    const vars = {render: query};
-    console.log(query);
-
-    res.render("dashboard", vars);
-  });
-});
-
-// Join tests
-// Dashboard page
-app.get("/join", (req, res) => {
-  let menu = [];
-
   knex('order_list').join('menu','order_list.meni_id', 'menu.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price').then( (allOrders) => {
 
     let marker = '';
@@ -89,25 +74,17 @@ app.get("/join", (req, res) => {
     allOrders.forEach( (item) => {
       if (marker === '' || marker !== item.order_id) {
         namePos = 0;
-        totalPrice = 0;
         marker = item.order_id;
         obj[item.order_id] = [];
-        console.log(obj[item.order_id]);
       }
 
       let name = "menuItem" + namePos;
       obj[item.order_id].push({ name: item.name, description: item.description, price: item.price });
     });
-    // Object.keys(obj).forEach( (object) => {
-
-    // });
-    //console.log(Object.values(obj)); // testing
-    console.log(obj);
-    const allOrderList = [obj];
+    const allOrderList = obj;
      res.status(200).render('dashboard', allOrderList);
   });
 });
-
 
 // To place orders
 app.post('/order', (req,res) => {
@@ -164,13 +141,38 @@ app.post('/order', (req,res) => {
 
 // Route for user order
 app.get('/order/:id', (req,res) => {
-  let user_order = [];
-  knex.select('*').from('menu').asCallback( (err, query) => {
-    user_order.push(query);
-  });
-  res.render('order', user_order);
+  const order = req.params.id;
+      knex('order_list').select('order_list.meni_id').where('order_list.order_id', order).then( function (list) {
+        const menuList = [];
+        const qtyOfItems = [];
+        Object.values(list).forEach( (item) => {
+          menuList.push(item.meni_id);
+          qtyOfItems.push(item.name, item.meni_id);
+        });
+        knex('menu').select('*').whereIn('menu.unique_id', menuList).then( function (items) {
+          let currentNum = 0;
+          let total = {};
+          let count = 0;
+          menuList.forEach( (elem) => {
+            console.log(elem);
+            if(currentNum === elem) {
+              count = 1;
+              total[currentNum] = count;
+            }
+            if(currentNum !== elem) {
+              console.log(currentNum, elem);
+              currentNum = elem;
+              count += 1;
+              total[currentNum] = count;
+            }
+          });
+          const values = [items, total];
+          res.render('order', values);
+        });
+      });
 });
 
+// Stretch (Multiple restaurants)
 app.get('/dashboard/:id', (req,res) => {
 
 });
