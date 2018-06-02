@@ -8,19 +8,20 @@ const express     = require("express");
 const bodyParser  = require("body-parser");
 const sass        = require("node-sass-middleware");
 const app         = express();
+const SID         = process.env.SID;
+const AUTH        = process.env.AUTH;
+const twilio      = require('twilio');
 
 const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
 
+const client = new twilio(SID, AUTH);
+
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
 
-
-console.log("DB NAME: ", process.env.DB_NAME);
-console.log("DB USER: ", process.env.DB_USER);
-console.log("DB PORT: ", process.env.DB_PORT);
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -53,6 +54,27 @@ app.get("/", (req, res) => {
   });
   // Send Menu items to home page.
   res.render("index", menu);
+});
+
+app.get('/notify', (req,res) => {
+  const orderId = req.params.id; // Order for customer
+  // needs orderid, time
+  // get name and number from users
+  // query SQL
+
+  // knex('order_list').join('menu','order_list.menu_id', 'menu.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price').then( (allOrders) => {
+
+  let name = 'Jonny Boy';
+  let time = '12';
+  let url = 'http://not.real.com/';
+  client.messages.create({
+      body: `Hey ${ name }, Your order has been recieved and will be ready in ${ time } minutes. For more details regarding your order, check out: ${ url }`,
+      // body: `Hey, Your order has been recieved and will be ready in ${ time } minutes. For more details regarding your order, check out: ${ url }`,
+      to: '+14038058338',  // Text this number
+      from: `+${ process.env.NUM }` // From a valid Twilio number
+  })
+  .then((message) => console.log(message.sid),console.log('test'));
+  res.status(200).send("Attempt\n\n" + message);
 });
 
 // Order page
@@ -92,13 +114,10 @@ app.get("/dashboard", (req, res) => {
 
 // To place orders
 app.post('/order', (req,res) => {
-  //console.log(req.body);
-  //console.log(req);
   const uName = req.body.name;
   const uPhone = req.body.phone;
   const orderedAt = new Date();
   let orderedItems = Object.values(req.body.order);
-  // console.log(orderedItems);
   let eta;
 
 
