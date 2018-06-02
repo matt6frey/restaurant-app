@@ -55,7 +55,7 @@ app.get("/", (req, res) => {
 app.get("/order/example_id", (req, res) => {
   let menu = [];
 
-   knex('menu').leftJoin('order_ticket', 'meni_id', '=', 'users.unique_id').asCallback( (err, query) => {
+   knex('menu').leftJoin('order_ticket', 'menu_id', '=', 'users.unique_id').asCallback( (err, query) => {
      const vars = {render: query};
      console.log(query);
 
@@ -65,7 +65,7 @@ app.get("/order/example_id", (req, res) => {
 
 // Dashboard page
 app.get("/dashboard", (req, res) => {
-  knex('order_list').join('menu','order_list.meni_id', 'menu.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price').then( (allOrders) => {
+  knex('order_list').join('menu','order_list.menu_id', 'menu.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price').then( (allOrders) => {
 
     let marker = '';
     let namePos = 0;
@@ -110,7 +110,7 @@ app.post('/order', (req,res) => {
           knex('menu').whereIn('name', orderedItems).select('*').then(function (items) {
             // Insert menu items into order_list
             items.forEach(function (item) {
-              knex('order_list').insert({ meni_id: item.unique_id, order_id: newOrder[0].unique_id, eta: Number(item.eta) }).returning('*').then( function (result) {
+              knex('order_list').insert({ menu_id: item.unique_id, order_id: newOrder[0].unique_id, eta: Number(item.eta) }).returning('*').then( function (result) {
                   console.log(result);
               });
             }); // outside forEach
@@ -128,7 +128,7 @@ app.post('/order', (req,res) => {
             // Insert menu items into order_list
             items.forEach(function (item) {
               console.log(item.eta);
-              knex('order_list').insert({ meni_id: item.unique_id, order_id: newOrder[0].unique_id, eta: Number(item.eta) }).returning('*').then( function (result) {
+              knex('order_list').insert({ menu_id: item.unique_id, order_id: newOrder[0].unique_id, eta: Number(item.eta) }).returning('*').then( function (result) {
                   console.log(result);
               });
             }); // Outside forEach
@@ -142,12 +142,12 @@ app.post('/order', (req,res) => {
 // Route for user order
 app.get('/order/:id', (req,res) => {
   const order = req.params.id;
-      knex('order_list').select('order_list.meni_id').where('order_list.order_id', order).then( function (list) {
+      knex('order_list').select('order_list.menu_id').where('order_list.order_id', order).then( function (list) {
         const menuList = [];
         const qtyOfItems = [];
         Object.values(list).forEach( (item) => {
-          menuList.push(item.meni_id);
-          qtyOfItems.push(item.name, item.meni_id);
+          menuList.push(item.menu_id);
+          qtyOfItems.push(item.name, item.menu_id);
         });
         knex('menu').select('*').whereIn('menu.unique_id', menuList).then( function (items) {
           let currentNum = 0;
@@ -167,6 +167,7 @@ app.get('/order/:id', (req,res) => {
             }
           });
           const values = [items, total];
+          console.log(values);
           res.render('order', values);
         });
       });

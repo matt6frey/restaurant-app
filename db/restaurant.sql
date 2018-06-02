@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS menu (
 
 CREATE TABLE IF NOT EXISTS order_list (
     unique_id BIGSERIAL PRIMARY KEY,
-    meni_id INTEGER, --- Foreigh Key
+    menu_id INTEGER, --- Foreign Key
     order_id INTEGER, --- Foreign Key
     ETA INTEGER --- in seconds
 );
@@ -53,7 +53,7 @@ ALTER DATABASE midterm OWNER TO labber;
 ALTER TABLE menu OWNER TO labber;
 ALTER TABLE order_list OWNER TO labber;
 ALTER TABLE order_ticket ADD FOREIGN KEY (user_id) REFERENCES users(unique_id);
-ALTER TABLE order_list ADD FOREIGN KEY (meni_id) REFERENCES menu(unique_id);
+ALTER TABLE order_list ADD FOREIGN KEY (menu_id) REFERENCES menu(unique_id);
 ALTER TABLE order_list ADD FOREIGN KEY (order_id) REFERENCES order_ticket(unique_id);
 ALTER TABLE order_ticket OWNER TO labber;
 ALTER TABLE users OWNER TO labber;
