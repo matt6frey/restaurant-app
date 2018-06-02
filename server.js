@@ -17,6 +17,8 @@ const knexLogger  = require('knex-logger');
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
 
+const renderItemContainer = require('./public/scripts/app.js')
+
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -39,23 +41,57 @@ app.use(express.static("public"));
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 
+//counts number of items in order_list
+function count(array_elements) {
+  array_elements.sort();
+  var current = null;
+  var count = 0;
+  let resultArr = [];
+  for (var i = 0; i < array_elements.length; i++) {
+      if (array_elements[i] != current) {
+          if (count > 0) {
+              // console.log(current + ' comes --> ' + count + ' times');
+              let tempArr = [];
+              tempArr.push(current);
+              tempArr.push(count);
+              resultArr.push(tempArr);
+          }
+          current = array_elements[i];
+          count = 1;
+      } else {
+          count++;
+      }
+  }
+  if (count > 0) {
+      //console.log(current + ' comes --> ' + count + ' times');
+      let tingArr = [];
+      tingArr.push(current);
+      tingArr.push(count);
+      resultArr.push(tingArr);
+  }
+  return resultArr;
+}
+
+
+
 
 // Home page
 app.get("/", (req, res) => {
-  // console.log("REQ: \n\n", req.body, "\n\nRES: \n\n", res);
   let menu = [];
+
   knex.select('*').from('menu').asCallback( (err, query) => {
-    menu.push(query);
+    const vars = {render: query};
+    console.log(query);
+
+    res.render("index", vars);
   });
-  // Send Menu items to home page.
-  res.render("index", menu);
 });
 
 // Order page
 app.get("/order/example_id", (req, res) => {
   let menu = [];
 
-   knex('menu').leftJoin('order_ticket', 'meni_id', '=', 'users.unique_id').asCallback( (err, query) => {
+   knex('menu').join('order_ticket', 'meni_id', '=', 'users.unique_id').asCallback( (err, query) => {
      const vars = {render: query};
      console.log(query);
 
@@ -65,23 +101,10 @@ app.get("/order/example_id", (req, res) => {
 
 // Dashboard page
 app.get("/dashboard", (req, res) => {
-  let menu = [];
-
-  knex.select('*').from('order_list').asCallback( (err, query) => {
-    const vars = {render: query};
-    console.log(query);
-
-    res.render("dashboard", vars);
-  });
-});
-
-// Join tests
-// Dashboard page
-app.get("/join", (req, res) => {
-  let menu = [];
-
+  //let menu = [];
+  let uu = [];
   knex('order_list').join('menu','order_list.meni_id', 'menu.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price').then( (allOrders) => {
-
+    //console.log(allOrders);
     let marker = '';
     let namePos = 0;
     let totalPrice = 0;
@@ -92,20 +115,125 @@ app.get("/join", (req, res) => {
         totalPrice = 0;
         marker = item.order_id;
         obj[item.order_id] = [];
-        console.log(obj[item.order_id]);
       }
 
       let name = "menuItem" + namePos;
       obj[item.order_id].push({ name: item.name, description: item.description, price: item.price });
     });
-    // Object.keys(obj).forEach( (object) => {
 
-    // });
-    //console.log(Object.values(obj)); // testing
-    console.log(obj);
-    const allOrderList = [obj];
-     res.status(200).render('dashboard', allOrderList);
+   //creates array without duplicating items
+    for (var order_id in obj) {
+
+      let arr = [];
+      obj[order_id].forEach(function(food_item) {
+        arr.push(food_item.name);
+      });
+      let duplicateArr = count(arr);
+      console.log(duplicateArr);
+
+      var objj= {};
+      objj['order_id'] = order_id;
+      objj['items']={};
+      for(let i = 0; i < duplicateArr.length; i ++) {
+        let name = `item${i+1}`
+        objj['items'][name] = duplicateArr[i];
+      }
+      uu.push(objj);
+    }
+
+    let nameArr = [];
+    for (var order_id in obj) {
+      let listArr = obj[order_id];
+      obj[order_id].forEach(function(item) {
+        nameArr.push(item);
+      })
+    }
+
+    //put in description for each item
+    for (let i = 0; i < uu.length; i ++) {
+      // console.log(uu[i].items)
+      for (var prop in uu[i].items) {
+        // console.log(uu[i].items[prop][0]);
+        // console.log(uu[i].items[prop]);
+        let aaa = uu[i].items[prop];
+        let food_name = uu[i].items[prop][0];
+        nameArr.forEach(function(item) {
+          // console.log(item);
+          if (item.name === food_name){
+            aaa.push(item.description);
+          }
+        });
+      }
+    }
+    // console.log(uu[0].items);
+    uu.forEach(function(item) {
+      // console.log(item.items);
+      for (let prop in item.items) {
+        // console.log(item.items[prop]);
+        // let arr = item.items[prop];
+        // item.items[prop].slice(1,3);
+        // console.log(item.items[prop].slice(0,3));
+        // item.items[prop].slice(0,3);
+        item.items[prop] = item.items[prop].slice(0,3);
+      }
+    });
+
+
+    //put in price for each item
+    for (let i = 0; i < uu.length; i ++) {
+      // console.log(uu[i].items)
+      for (var prop in uu[i].items) {
+        // console.log(uu[i].items[prop][0]);
+        // console.log(uu[i].items[prop]);
+        let aaa = uu[i].items[prop];
+        let food_name = uu[i].items[prop][0];
+        nameArr.forEach(function(item) {
+          // console.log(item);
+          if (item.name === food_name){
+            aaa.push(item.price);
+          }
+        });
+      }
+    }
+    uu.forEach(function(item) {
+      // console.log(item.items);
+      for (let prop in item.items) {
+        // console.log(item.items[prop]);
+        // let arr = item.items[prop];
+        // item.items[prop].slice(1,3);
+        // console.log(item.items[prop].slice(0,3));
+        // item.items[prop].slice(0,3);
+        item.items[prop] = item.items[prop].slice(0,4);
+      }
+    });
+
+    //puts total price for order
+    uu.forEach(function(item) {
+      // console.log(item.items);
+      let total = 0;
+      for (let prop in item.items) {
+        // console.log(item.items[prop]);
+        total += Number(item.items[prop][3]);
+        // let arr = item.items[prop];
+        // item.items[prop].slice(1,3);
+        // console.log(item.items[prop].slice(0,3));
+        // item.items[prop].slice(0,3);
+        // item.items[prop] = item.items[prop].slice(0,3);
+      }
+      // console.log(total);
+      // console.log(item);
+      item['total_price'] = total;
+    });
+    // console.log(uu);
+
+      const vars = {render: uu};
+
+     res.render("dashboard", vars);
+
   });
+
+
+
 });
 
 
@@ -162,19 +290,13 @@ app.post('/order', (req,res) => {
   });
 }); // End request
 
-// Route for user order
-app.get('/order/:id', (req,res) => {
-  let user_order = [];
-  knex.select('*').from('menu').asCallback( (err, query) => {
-    user_order.push(query);
-  });
-  res.render('order', user_order);
-});
-
-app.get('/dashboard/:id', (req,res) => {
-
-});
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
+
+
+
+
+
+
