@@ -26,7 +26,7 @@
            <img class="logo" src="/images/<%= item.name %>.jpg" style="width:200px;height:150px;">
            <span class="food_name"><%= item.name %></span>
             <span class="food_description"><%= item.description %></span>
-            <span class="food_price"><%= item.price %></span>
+            <span class="food_price">$<%= item.price %></span>
           <form class="check_box" action='/.../' method='...'>
             <input type="checkbox">
           </form>
@@ -41,10 +41,12 @@
         <% }); %>
 
         <section class="menu_footer">
+
+          <!-- toggle between these -->
           <button class="order" type="submit">
             <span class="order_text">Order</span>
           </button>
-        </section>
+
         <form name ='order_form' id='order_form' action='/.../' method='...'>
           <span class="name_text">Name</span>
           <textarea name='text' class="name" placeholder="John Smith"></textarea>
@@ -52,6 +54,9 @@
           <textarea name='text' class="number" placeholder="123-456-7890"></textarea>
           <input type="submit" value="Place Order">
         </form>
+          <!-- toggle between these -->
+
+
       </section>
 
     </div>

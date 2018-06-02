@@ -3,50 +3,45 @@
   <% include ./partials/_header.ejs %>
   <body>
 
-<% render.forEach(function(item) { %>
-         <div class="items_container">
-          <section class="<%= item.meal_type %>">
-           <img class="logo" src="/images/<%= item.name %>.jpg" style="width:200px;height:150px;">
-           <span class="food_name"><%= item.name %></span>
-            <span class="food_description"><%= item.description %></span>
-            <span class="food_price"><%= item.price %></span>
-          <form class="check_box" action='/.../' method='...'>
-            <input type="checkbox">
-          </form>
-           <select class="dropdown">
-            <option selected>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-           </select>
-          </div>
-        <% }); %>
-
-    render.forEach(function(item) {
+    <% render.forEach(function(item) { %>
      <div class="order_container">
-
        <section class="order_container_header">
         <span class="order_id">Order ID: <%= item.order_id %></span>
-        <span class="total">Total: TOTAL HERE</span>
+        <span class="date">Time of Order: <%= item.time_ordered %></span>
+        <span class="total">Total: $<%= item.total_price %></span>
        </section>
-
+       <% for (let prop in item.items) { %>
         <section class="<%= item.meal_type %>">
-         <img class="logo" src="/images/<%= item.name %>.jpg" style="width:200px;height:150px;">
-         <span class="food_name"><%= item.name %></span>
-          <span class="food_description"><%= item.description %></span>
-          <span class="food_price"><%= item.price %></span>
-        <span class="quantity">Quanity: 2</span>
+         <img class="logo" src="/images/<%= item.items[prop][0] %>.jpg" style="width:200px;height:150px;">
+         <span class="food_name"><%= item.items[prop][0] %></span>
+          <span class="food_description"><%= item.items[prop][2] %></span>
+          <span class="food_price">$<%= item.items[prop][3] %></span>
+          <span class="quantity">Quanity: <%= item.items[prop][1] %></span>
         </section>
-
+         <% } %>
         <section class="order_container_footer">
-          <span class="eta">Ready In: <%= item.ETA %></span>
+          <span class="eta">Ready In: OWNER ENTERS ETA HERE</span>
+          <!-- toggle between these -->
+          <form name ='notified_form' id='notified_form' action='/.../' method='...'>
+            <i class="fa fa-check-circle"></i>
+            <span class="notifed_text">Notified</span>
+            <button class="update" type="submit">
+             <span class="update_button_text">Update</span>
+            </button>
+            <button class="delete" type="submit">
+             <span class="delete_button_text">Delete</span>
+            </button>
+          </form>
           <form name ='notify_form' id='notify_form' action='/.../' method='...'>
             <textarea name='notify_text' class="notify_text"></textarea>
-            <input type="submit" value="Notify">
+            <button class="notify" type="submit">
+             <span class="notify_button_text">Notify</span>
+            </button>
           </form>
+          <!-- toggle between these -->
         </section>
-
       </div>
-     });
+    <% }); %>
+
   </body>
 </html>

@@ -4,27 +4,27 @@
   <h1>Your Order</h1>
   <body>
 
-    render.forEach(function(item) {
      <div class="order_container">
        <section class="order_container_header">
-        <span class="order_id">Order ID: <%= item.order_id %></span>
-        <span class="date">DATE HERE</span>
+        <span class="order_id">Order ID: <%= render.order_id %></span>
+        <span class="date">Time of Order: <%= render.time_ordered %></span>
        </section>
 
+       <% for (let item in render.items) { %>
         <section class="the_bird_special">
-          <img class="logo" src="/images/<%= item.name %>.jpg" style="width:200px;height:150px;">
-           <span class="food_name"><%= item.name %></span>
-            <span class="food_description"><%= item.description %></span>
-          <span class="the_bird_special_price"><%= item.price %></span>
-          <span class="quantity">Quantity: <%= item.quantity %></span>
+          <img class="logo" src="/images/<%= render.items[item][0] %>.jpg" style="width:200px;height:150px;">
+           <span class="food_name"><%= render.items[item][0] %></span>
+            <span class="food_description"><%= render.items[item][2] %></span>
+          <span class="the_bird_special_price"><%= render.items[item][3] %></span>
+          <span class="quantity">Quantity: <%= render.items[item][1] %></span>
         </section>
+        <% } %>
 
         <section class="order_container_footer">
-          <span class="eta">Ready In: <%= item.ETA %></span>
-          <span class="total">Total: <%= item.total_price %></span>
+          <span class="eta">Ready In: ETA FROM OWNER HERE</span>
+          <span class="total">Total: $<%= render.total_price %></span>
         </section>
       </div>
-      });
 
   </body>
 </html>
