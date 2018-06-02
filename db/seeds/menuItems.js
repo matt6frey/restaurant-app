@@ -1,5 +1,5 @@
-// Foreigns keys must be set up
 exports.seed = function(knex, Promise) {
+  // Menu items
   const menuItems = [
     {
       name: 'Italian Breakfast Brushcetta',
@@ -93,42 +93,25 @@ exports.seed = function(knex, Promise) {
       eta: 600
     }
   ];
-  knex.schema.hasTable('menu').then ( function (exists) {
-    if(exists) {
-    return knex('menu').del()
-      .then(function () {
-        Promise.all(
-          [
-          knex.schema.withSchema('restaurant').createTable('menu', function (table) {
-            table.increments('unique_id').primary();
-            table.string('name',40);
-            table.string('description', 255);
-            table.decimal('', 4, 2);
-            table.string('meal_type', 20);
-            table.integer('eta');
-          }),
-          menuItems.forEach( (item) => {
-            knex('users').insert({ name: item.name, description: item.description, price: item.price, meal_type: item.meal_type, eta: item.eta });
-          })
-          ]
-        );
+
+  // Deletes ALL existing entries
+  return knex('menu').del()
+    .then(function () {
+      const miIList = menuItems.map( (mi) => { return { name: mi.name, description: mi.description, price: mi.price, meal_type: mi.meal_type, eta: mi.eta }; } );
+      return Promise.all([
+          knex('menu').insert( miIList[0] ),
+          knex('menu').insert( miIList[1] ),
+          knex('menu').insert( miIList[2] ),
+          knex('menu').insert( miIList[3] ),
+          knex('menu').insert( miIList[4] ),
+          knex('menu').insert( miIList[5] ),
+          knex('menu').insert( miIList[6] ),
+          knex('menu').insert( miIList[7] ),
+          knex('menu').insert( miIList[8] ),
+          knex('menu').insert( miIList[9] ),
+          knex('menu').insert( miIList[10] ),
+          knex('menu').insert( miIList[11] ),
+          knex('menu').insert( miIList[12] )
+        ]);
     });
-    } else {
-      return Promise.all(
-          [
-          knex.schema.withSchema('restaurant').createTable('menu', function (table) {
-            table.increments('unique_id').primary();
-            table.string('name',40);
-            table.string('description', 255);
-            table.decimal('', 4, 2);
-            table.string('meal_type', 20);
-            table.integer('eta');
-          }),
-          menuItems.forEach( (item) => {
-            knex('users').insert({ name: item.name, description: item.description, price: item.price, meal_type: item.meal_type, eta: item.eta });
-          })
-          ]
-        );
-    }
-  });
 };

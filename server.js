@@ -17,6 +17,10 @@ const knexLogger  = require('knex-logger');
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
 
+
+console.log("DB NAME: ", process.env.DB_NAME);
+console.log("DB USER: ", process.env.DB_USER);
+console.log("DB PORT: ", process.env.DB_PORT);
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
