@@ -30,10 +30,19 @@
    <img class="logo" src="/images/bird.jpg" >
     <h1>The Bird</h1>
 
+    <!-- This button should ONLY be shown on index when menu IS NOT open -->
    <button class="menu" type="submit">
     <span class="menu_text">Menu</span>
    </button>
+   <!-- This button should ONLY be shown on index when menu IS NOT open -->
 
+   <!-- This button should be displayed in ALL other cases on EVERY other page -->
+   <button class="home" type="submit">
+    <span class="home_text">Home</span>
+   </button>
+   <!-- This button should be displayed in ALL other cases on EVERY other page -->
+
+   <!-- If on dashboard or order pages, check order not shown -->
    <button class="check_order" type="submit">
     <span class="check_order_text">Check Order</span>
    </button>
@@ -44,15 +53,19 @@
      <span class="check_button_text">Check</span>
     </button>
    </form>
+   <!-- If on dashboard or order pages, check order not shown -->
 
    <section class="info">
     <span class="number_text">780-888-8888</span>
     <span class="address_text">1234 Main Street</span>
    </section>
 
+   <!-- This should not be shown on Dashboard Page -->
    <section class="location">
     <span class="distance_text">10 KM Away</span>
     <i class="fa fa-location-arrow"></i>
    </section>
+   <!-- This should not be shown on Dashboard Page -->
+
  </body>
 
