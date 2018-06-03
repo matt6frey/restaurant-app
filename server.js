@@ -8,43 +8,19 @@ const express     = require("express");
 const bodyParser  = require("body-parser");
 const sass        = require("node-sass-middleware");
 const app         = express();
+const SID         = process.env.SID;
+const AUTH        = process.env.AUTH;
+const twilio      = require('twilio');
 
 const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
 
-const renderItemContainer = require('./public/scripts/app.js')
-
-const SID         = process.env.SID;
-const AUTH        = process.env.AUTH;
-const twilio      = require('twilio');
 const client = new twilio(SID, AUTH);
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
-//notify -twilio
-app.get('/notify', (req,res) => {
-  const orderId = req.params.id; // Order for customer
-  // needs orderid, time
-  // get name and number from users
-  // query SQL
-
-  // knex('order_list').join('menu','order_list.menu_id', 'menu.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price').then( (allOrders) => {
-
-  let name = 'Jonny Boy';
-  let time = '12';
-  let url = 'http://not.real.com/';
-  client.messages.create({
-      body: `Hey ${ name }, Your order has been recieved and will be ready in ${ time } minutes. For more details regarding your order, check out: ${ url }`,
-      // body: `Hey, Your order has been recieved and will be ready in ${ time } minutes. For more details regarding your order, check out: ${ url }`,
-      to: '+14038058338',  // Text this number
-      from: `+${ process.env.NUM }` // From a valid Twilio number
-  })
-  .then((message) => console.log(message.sid),console.log('test'));
-  res.status(200).send("Attempt\n\n" + message);
-});
-
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -67,6 +43,31 @@ app.use(express.static("public"));
 
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
+
+
+
+
+app.get('/notify', (req,res) => {
+  console.log(req.body);
+  const orderId = req.params.id; // Order for customer
+  // needs orderid, time
+  // get name and number from users
+  // query SQL
+
+  // knex('order_list').join('menu','order_list.menu_id', 'menu.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price').then( (allOrders) => {
+
+  let name = 'Jonny Boy';
+  let time = '12';
+  let url = 'http://not.real.com/';
+  client.messages.create({
+      body: `Hey ${ name }, Your order has been recieved and will be ready in ${ time } minutes. For more details regarding your order, check out: ${ url }`,
+      // body: `Hey, Your order has been recieved and will be ready in ${ time } minutes. For more details regarding your order, check out: ${ url }`,
+      to: '+17053804770',  // Text this number
+      from: `+${ process.env.NUM }` // From a valid Twilio number
+  })
+  .then((message) => console.log(message.sid),console.log('test'));
+  res.status(200);
+});
 
 //counts number of items in order_list
 function count(array_elements) {
@@ -270,9 +271,7 @@ app.post('/order', (req,res) => {
      knex('users').insert({ name: uName, phone_num: uPhone }).returning('*').then( function (newUser) {
        // creates ticket
        knex('order_ticket').insert({ user_id: newUser[0].unique_id, time_ordered: orderedAt }).returning('*').then( function (newOrder) {
-         console.log("On new user: ", newOrder);
          // gets order menu items
-         console.log(newOrder);
          knex('menu').whereIn('name', orderedItems).select('*').then(function (items) {
            // Insert menu items into order_list
            items.forEach(function (item) {
@@ -290,10 +289,8 @@ app.post('/order', (req,res) => {
          console.log("On old user: ", newOrder);
          // gets order menu items
          knex('menu').whereIn('name', orderedItems).select('*').then(function (items) {
-           console.log(items);
            // Insert menu items into order_list
            items.forEach(function (item) {
-             console.log(item.eta);
              knex('order_list').insert({ menu_id: item.unique_id, order_id: newOrder[0].unique_id, eta: Number(item.eta) }).returning('*').then( function (result) {
                  console.log(result);
              });
@@ -312,7 +309,7 @@ app.get('/order/:id', (req,res) => {
  let finalArray = [];
  knex('order_list').join('menu','order_list.menu_id', 'menu.unique_id').join('order_ticket','order_list.order_id', 'order_ticket.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price', 'time_ordered').where('order_list.order_id', '=', `${orderID}`).then( (allOrders) => {
   //debug allOrders result: console.log(allOrders)
-  let marker = '';
+    let marker = '';
     let namePos = 0;
     let totalPrice = 0;
     let obj = {};
@@ -441,6 +438,33 @@ app.get('/order/:id', (req,res) => {
     res.render("order", vars);
 
   });
+});
+
+app.post('/notify', (req,res) => {
+  console.log(req.body);
+  const orderID = req.body.id; // Order for customer
+  const eta = req.body.eta;
+  // needs orderid, time
+  // get name and number from users
+  // query SQL
+
+  //knex('order_list').join('menu','order_list.menu_id', 'menu.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price').where("order_list.order_id", "LIKE", orderID).then( (customerOrder) => { console.log("Order ID: ", customerOrder); } );
+
+  let name = 'Jonny Boy';
+  let url = 'http://localhost:8080/order/'+orderID;
+  client.messages.create({
+      body: `Hey ${ name }, Your order has been recieved and will be ready in ${ eta } minutes. For more details regarding your order, check out: ${ url }`,
+      to: '+17053804770',  // Text this number
+      from: `+${ process.env.NUM }` // From a valid Twilio number
+  })
+  .then((message) => console.log(message.sid));
+//   client.messages.create({
+//     body: 'Hello from Node',
+//     to: '+12345678901',  // Text this number
+//     from: '+12345678901' // From a valid Twilio number
+// })
+// .then((message) => console.log(message.sid));
+  res.status(200);
 });
 
 
