@@ -38,7 +38,7 @@ app.get('/notify', (req,res) => {
   client.messages.create({
       body: `Hey ${ name }, Your order has been recieved and will be ready in ${ time } minutes. For more details regarding your order, check out: ${ url }`,
       // body: `Hey, Your order has been recieved and will be ready in ${ time } minutes. For more details regarding your order, check out: ${ url }`,
-      to: '+14038058338',  // Text this number
+      to: '+1NUMBER HERE',  // Text this number
       from: `+${ process.env.NUM }` // From a valid Twilio number
   })
   .then((message) => console.log(message.sid),console.log('test'));
