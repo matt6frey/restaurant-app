@@ -47,7 +47,7 @@ app.get('/notify', (req,res) => {
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
-//         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
+
 app.use(morgan('dev'));
 
 // Log knex SQL queries to STDOUT as well
@@ -66,31 +66,6 @@ app.use(express.static("public"));
 
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
-
-
-
-
-app.get('/notify', (req,res) => {
-  console.log(req.body);
-  const orderId = req.params.id; // Order for customer
-  // needs orderid, time
-  // get name and number from users
-  // query SQL
-
-  // knex('order_list').join('menu','order_list.menu_id', 'menu.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price').then( (allOrders) => {
-
-  let name = 'Jonny Boy';
-  let time = '12';
-  let url = 'http://not.real.com/';
-  client.messages.create({
-      body: `Hey ${ name }, Your order has been recieved and will be ready in ${ time } minutes. For more details regarding your order, check out: ${ url }`,
-      // body: `Hey, Your order has been recieved and will be ready in ${ time } minutes. For more details regarding your order, check out: ${ url }`,
-      to: '+17053804770',  // Text this number
-      from: `+${ process.env.NUM }` // From a valid Twilio number
-  })
-  .then((message) => console.log(message.sid),console.log('test'));
-  res.status(200);
-});
 
 //counts number of items in order_list
 function count(array_elements) {
