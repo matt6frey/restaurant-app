@@ -8,3 +8,7 @@
 //     }
 //   });;
 // });
+//$('body').CSS('background-color', 'red');
+$('.checkbox').click(function(event) {
+   $(".test").toggle(this.checked);
+});

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <% include ./partials/_header.ejs %>
-  <body>
 
     <div class="menu_container">
 
@@ -27,9 +26,8 @@
            <span class="food_name"><%= item.name %></span>
             <span class="food_description"><%= item.description %></span>
             <span class="food_price">$<%= item.price %></span>
-          <form class="check_box" action='/.../' method='...'>
-            <input type="checkbox">
-          </form>
+            <input type="checkbox" class="checkbox">
+            <span class="test" style="display:none">test</span>
            <select class="dropdown">
             <option selected>1</option>
             <option>2</option>
@@ -60,6 +58,7 @@
       </section>
 
     </div>
-
+    <!-- App JS -->
+    <script defer type="text/javascript" src="/scripts/app.js"></script>
   </body>
 </html>
