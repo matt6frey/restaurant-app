@@ -22,6 +22,12 @@ $('button.delete').on('click', (event) => {
     });
   });
 
+$('.rwd-menu').on('click', () => {
+  const menuBtn = $('.menu.btn.btn-primary');
+  const homeBtn = $('.home.btn.btn-primary');
+  const checkOrderBtn = $('.check_order.btn.btn-primary');
+});
+
 //to update from dashboard
 $( "button.update" ).on( "click", function( event ) {
   event.preventDefault();
