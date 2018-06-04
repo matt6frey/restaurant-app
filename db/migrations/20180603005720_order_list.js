@@ -1,4 +1,3 @@
-
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('order_list', function (table) {
     // .foreign('user_id').references('unique_id').inTable('users')

@@ -1,4 +1,3 @@
-
 exports.up = function(knex, Promise) {
 return knex.schema.createTable('order_ticket', function (table) {
             table.increments('unique_id').primary();

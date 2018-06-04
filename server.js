@@ -132,7 +132,7 @@ app.get("/dashboard", (req, res) => {
       let listArr = obj[order_id];
       obj[order_id].forEach(function(item) {
         nameArray.push(item);
-      })
+      });
     }
     //creates array without duplicating items
 
@@ -424,6 +424,20 @@ app.get('/order/:id', (req,res) => {
 
   });
 });
+
+app.post('/update/:id', (req, res) => {
+
+  const id = req.body.id;
+
+  knex('order_list')
+    .where('unique_id', id)
+    .update('complete', true, (updated) => {
+      console.log(updated);
+      res.sendStatus(200);
+    });
+  // knex.select('complete').from('order_list').where('order_ticket.unqiue', id).update().then( (column) => {
+
+  }) // order
 
 app.post('/notify', (req,res) => {
   console.log(req.body);
