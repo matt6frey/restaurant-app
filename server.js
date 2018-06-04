@@ -425,12 +425,12 @@ app.get('/order/:id', (req,res) => {
   });
 });
 
-app.post('/update/:id', (req, res) => {
+app.post('/delete/:id', (req, res) => {
 
   const id = req.body.id;
   console.log("ID: ", id);
 
-  knex('order_list').where('unique_id', id).returning('*').update('complete', true, (updated) => {
+  knex('order_ticket').where('unique_id', Number(id)).select('complete').update("complete", true).then((updated) => {
       console.log(updated);
       res.sendStatus(200);
     });
@@ -438,8 +438,39 @@ app.post('/update/:id', (req, res) => {
 
   }) // order
 
+app.post('/new-notify', (req,res) => {
+  const orderID = req.body.id; // Order for customer
+  const eta = req.body.eta; // Restaurant's ETA
+
+  knex('order_ticket').join('users','order_ticket.user_id', 'users.unique_id').select('users.name', 'users.phone_num').where("order_ticket.unique_id", Number(orderID)).then( (customer) => {
+    // Customer Info & Company Location/Order Link
+    const name = customer[0].name;
+    const phoneNum = customer[0].phone_num;
+    const location = "111 Main Street NW, Calgary, AB, T1Y 1P4";
+    const url = 'http://localhost:8080/order/' + orderID;
+
+    // Send initial notification
+    client.messages.create({
+        body: `Hey ${ name }, Your order has been recieved and will be ready in ${ eta } minutes. For more details regarding your order, check out: ${ url }`,
+        to: '+1' + phoneNum,  // Text this number
+        from: `+${ process.env.NUM }` // From a valid Twilio number
+    })
+    .then((message) => console.log(message.sid));
+    // Sets a timeout for the order completion text.
+    setTimeout( (completed) => {
+      client.messages.create({
+          body: `Hey ${ name }, Your order is ready for pick up at our location: ${ location }.`,
+          to: '+1' + phoneNum,  // Text this number
+          from: `+${ process.env.NUM }` // From a valid Twilio number
+      })
+      .then((message) => console.log(message.sid));
+    }, (eta * 1000 * 60) );
+    // res.sendStatus(200);
+    res.redirect('/dashboard');
+    } );
+});
+
 app.post('/notify', (req,res) => {
-  console.log(req.body);
   const orderID = req.body.id; // Order for customer
   const eta = req.body.eta; // Restaurant's ETA
 
