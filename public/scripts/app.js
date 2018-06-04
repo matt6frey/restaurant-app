@@ -95,7 +95,7 @@ $( ".notify_form" ).on( "submit", function( event ) {
   let obj = {};
   obj['eta'] = $(this).closest('form').find('.notify_text').val();
   obj['id'] = $(this).closest('form').find('.hidden-order-id').val();
-    /*$.ajax({
+    $.ajax({
       type: "POST",
       url: "/notify",
       data: JSON.stringify(obj),
@@ -105,7 +105,7 @@ $( ".notify_form" ).on( "submit", function( event ) {
       error: function(msg) {
       console.log('error');
       }
-    });*/
+    });
     let input = $(this).closest('.notify_form').find('input.notify_text');
     $(this).closest('.notify_form').fadeOut( 'slow', 'linear');
     setTimeout(()=> {
