@@ -227,6 +227,10 @@ input.notify_text {
     text-align:right;
 }
 
+.notified_form {
+    display: none;
+}
+
 
 button.notify, .notified_form button  {
     padding: 0.25rem 1rem;

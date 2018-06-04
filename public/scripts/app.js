@@ -1,11 +1,47 @@
 
 $(document).ready(function() {
 
+//to delete from dashboard
 $('button.delete').on('click', (event) => {
   event.preventDefault();
-  console.log($(this).closest('div.order_container').find('div.order_container'));
-  $(this).closest('div.order_container').find('div.order_container').fadeOut('slow', 'linear');
-});
+  let obj = {};
+  obj['id'] = $(this).closest('form').find('.hidden-order-id').val();
+  console.log(obj);
+
+ $.ajax({
+      type: "POST",
+      url: `/delete/${obj}`,
+      data: JSON.stringify(obj),
+      contentType: "application/json",
+      success: function(msg) {
+          // console.log(msg);
+      },
+      error: function(msg) {
+      console.log('error');
+      }
+    });
+  });
+
+//to update from dashboard
+$( "button.update" ).on( "click", function( event ) {
+  event.preventDefault();
+  let obj = {};
+  obj['eta'] = $(this).closest('form').find('.notify_text').val();
+  obj['id'] = $(this).closest('form').find('.hidden-order-id').val();
+  console.log(obj);
+    $.ajax({
+      type: "POST",
+      url: "/new-notify",
+      data: JSON.stringify(obj),
+      contentType: "application/json",
+      success: function(msg) {
+          // console.log(msg);
+      },
+      error: function(msg) {
+      console.log('error');
+      }
+    });
+  });
 
 $('button').on('click', (event) => {
   // Show only the correct menu items from click
@@ -59,18 +95,26 @@ $( ".notify_form" ).on( "submit", function( event ) {
   let obj = {};
   obj['eta'] = $(this).closest('form').find('.notify_text').val();
   obj['id'] = $(this).closest('form').find('.hidden-order-id').val();
-    $.ajax({
+    /*$.ajax({
       type: "POST",
       url: "/notify",
       data: JSON.stringify(obj),
       contentType: "application/json",
       success: function(msg) {
-          console.log(msg);
       },
       error: function(msg) {
       console.log('error');
       }
-    });
+    });*/
+    let input = $(this).closest('.notify_form').find('input.notify_text');
+    $(this).closest('.notify_form').fadeOut( 'slow', 'linear');
+    setTimeout(()=> {
+      $(this).closest('.order_container').find('.notified_form').fadeIn( 'slow', 'linear' );
+      input.val('');
+      $(this).closest('.order_container').find('.notified_form > .notifed_text').append(input.attr({ placeholder: 'ETA', type: 'number', name: 'eta', required: true, style: 'margin-left: 1rem; margin-right: 0.5rem;' })).fadeIn('slow', 'linear');
+
+
+    }, 800);
   });
 
 // Show check order form

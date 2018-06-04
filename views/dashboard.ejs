@@ -26,14 +26,15 @@
         <section class="order_container_footer">
           <!-- toggle between these -->
           <form name='notified_form' class='notified_form' action='/notify' method='POST'>
+            <input type="hidden" value="<%= item.order_id %>" class="hidden-order-id">
             <i class="fa fa-check-circle"></i>
             <span class="notifed_text">Notified</span>
-            <button class="update" type="submit">
+            <button class="update">
              <span class="update_button_text">Update</span>
             </button>
-            <button class="delete" type="submit">
+            <!-- <button class="delete">
               Delete
-            </button>
+            </button> -->
           </form>
           <form name='notify_form' class='notify_form' action='/notify' method='POST'>
             <input type="hidden" value="<%= item.order_id %>" class="hidden-order-id">

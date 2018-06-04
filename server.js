@@ -425,7 +425,7 @@ app.get('/order/:id', (req,res) => {
   });
 });
 
-app.post('/delete/:id', (req, res) => {
+app.post('/delete', (req, res) => {
 
   const id = req.body.id;
   console.log("ID: ", id);
