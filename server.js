@@ -428,10 +428,9 @@ app.get('/order/:id', (req,res) => {
 app.post('/update/:id', (req, res) => {
 
   const id = req.body.id;
+  console.log("ID: ", id);
 
-  knex('order_list')
-    .where('unique_id', id)
-    .update('complete', true, (updated) => {
+  knex('order_list').where('unique_id', id).returning('*').update('complete', true, (updated) => {
       console.log(updated);
       res.sendStatus(200);
     });

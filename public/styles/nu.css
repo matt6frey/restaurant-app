@@ -1,0 +1,262 @@
+@charset "UTF-8";
+
+body {
+    background-image: url(https://design-milk.com/images/2014/09/Bibo-Restaurant-Lounge-Substance-1.jpg);
+    background-size: cover;
+    background-attachment: fixed; 
+}
+
+.nav {
+    background-color: #fff;
+    display: inline-block;
+    width: 30%;
+    text-align: center;
+    padding: 1rem;
+    position: fixed;
+    right:0;
+    height: 100vh;
+    z-index: 10;
+}
+
+.logo {
+    width: 100%;
+    max-width: 200px;
+}
+
+.nav h1 {
+    margin: 1rem;
+}
+.nav button {
+    margin: 1.5rem 0;
+}
+
+#check_order_form {
+    display: none;
+}
+
+/* form in nav */
+
+.check_order_text {
+    width: 100px;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* menu items area */
+
+.menu_container {
+    padding: 1.5rem;
+    position: absolute;
+    left: 0;
+    width: 70%;
+}
+
+
+section.categories {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+section.categories button,
+#order_form input[type="submit"],
+button.order, button.notify,
+.notified_form button {
+    margin: 0 1rem;
+    background-color: transparent;
+    color: #fff;
+    border:solid 2px #fff;
+}
+
+div.breakfast,
+div.lunch,
+div.dinner,
+.order_container {
+    margin: 0.5rem 0;
+    position: relative;
+    background-color: rgba(0,0,0, 0.65);
+}
+
+.order_container {
+    width: 67%;
+    padding: 1rem 0;
+}
+
+div.breakfast img,
+div.lunch img,
+div.dinner img,
+.order_container img {
+    display: inline-block;
+    position:relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-left:1rem;
+    vertical-align: top;
+    box-shadow: 0 0 5px #000;
+}
+
+div.menu-item-info, .order_container {
+    display: inline-block;
+    position: relative;
+    width: 67%;
+    margin-left:  1rem;
+}
+
+span.food_name {
+    color: #e87503;
+    display: block;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+span.food_description {
+    color: #fff;
+    display: block;
+    margin: 1rem 0;
+}
+
+.qty-selection {
+    text-align: right;
+    padding: 1rem 0;
+}
+
+span.food_price {
+    margin-right: 1rem;
+    color: #e87503;
+    font-weight:bold;
+}
+
+input.checkbox {
+    width: 25px;
+    height: 25px;
+    margin: 0;
+    vertical-align: bottom;
+    box-shadow: 0 0 5px #000;
+}
+
+select.dropdown {
+    padding: 0.25rem;
+    background-color: #fff;
+    border-radius: 3px;
+    color: #666;
+    box-shadow: 0 0 5px #000;
+}
+
+button.order, #place_order_form input[type="submit"] {
+    padding: 0.5rem 1rem;
+    border-radius: 7px;
+    color: #00c300;
+    border-color: #00c300;
+    text-align: right;
+    display: block;
+    position:absolute;
+    right: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+
+
+#place_order_form {
+    background-color: #e77739;
+    padding: 1rem;
+    position: fixed;
+    bottom: -95px;
+    left: 0;
+    width: 70%;
+    text-align:right;
+    transition: bottom 0.5s ease-in-out;
+}
+
+input.name, input.number {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: solid 2px #fff;
+}
+
+span.name_text, span.number_text {
+    font-size: 1.15rem;
+    margin-right: 0.5rem;
+}
+
+span.number_text {
+    margin-left: 1.5rem;
+}
+
+#place_order_form input[type="submit"] {
+    display: inline-block;
+    position: static;
+    left:inherit;
+    bottom: inherit;
+    background-color: transparent;
+    border: solid 2px #fff;
+    color: #fff;
+    margin-left: 1rem;
+    margin-right: 0.5rem;
+    right: 0;
+}
+
+#place_order_form input[type="submit"]:hover {
+    border: solid 2px #bb5218;
+    background-color: #bb5218;
+    color: #fff;
+}
+
+span.total {
+    position: absolute;
+    right: 1.25rem;
+}
+
+.order_container_header {
+    text-align: center;
+    color: #fff;
+}
+
+span.quantity {
+    color: #fff;
+}
+
+input.notify_text {
+    padding: 0.25rem;
+    border: solid 1px #666;
+    border-radius: 3px;
+    margin-right: 0.5rem;
+    text-align:center;
+    width: 85px;
+}
+
+.notify_form, .notified_form {
+    text-align:right;
+}
+
+
+button.notify, .notified_form button  {
+    padding: 0.25rem 1rem;
+    border-radius: 3px;
+}
+
+.notified_form button {
+    margin: 1rem 1rem 1rem 0;    
+}
+
+.notified_form i, .notifed_text {
+    color: #fff;
+    margin-right: 1rem;
+}
+
+.order-h1 {
+    width: 70%;
+} 
+
+.order_container_footer span.total {
+    color: #fff;
+}
+/* Bootstrap Over-rides */
+
+.btn, button.notify, .notified_form button  {
+    background-color: #e87503;
+    border-color: #e87503;
+}
+
+.btn:hover, .btn:active, button.notify, .notified_form button  {
+    background-color: #ff7f00;
+    border-color: #ff7f00;
+}
