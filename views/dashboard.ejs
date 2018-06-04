@@ -8,32 +8,36 @@
        <section class="order_container_header">
         <span class="order_id">Order ID: <%= item.order_id %></span>
         <span class="date">Time of Order: <%= item.time_ordered %></span>
-        <span class="total">Total: $<%= item.total_price %></span>
+        <span class="total">Total: $<%= Number(item.total_price).toFixed(2) %></span>
        </section>
        <% for (let prop in item.items) { %>
-        <section class="<%= item.meal_type %>">
-         <img class="logo" src="/images/<%= item.items[prop][0] %>.jpg" style="width:200px;height:150px;">
-         <span class="food_name"><%= item.items[prop][0] %></span>
-          <span class="food_description"><%= item.items[prop][2] %></span>
-          <span class="food_price">$<%= item.items[prop][3] %></span>
-          <span class="quantity">Quanity: <%= item.items[prop][1] %></span>
+        <section class="order-details">
+          <img class="logo" src="/images/<%= item.items[prop][0] %>.jpg" style="width:200px;height:150px;">
+          <div class="menu-item-info">
+            <span class="food_name"><%= item.items[prop][0] %></span>
+            <span class="food_description"><%= item.items[prop][2] %></span>
+            <div class="qty-selection">
+              <span class="food_price">$<%= item.items[prop][3] %></span>
+              <span class="quantity">Quantity: <%= item.items[prop][1] %></span>
+            </div>
+          </div>
         </section>
          <% } %>
         <section class="order_container_footer">
-          <span class="eta">Ready In: OWNER ENTERS ETA HERE</span>
           <!-- toggle between these -->
-          <form name ='notified_form' id='notified_form' action='/.../' method='...'>
+          <form name='notified_form' class='notified_form' action='/notify' method='POST'>
             <i class="fa fa-check-circle"></i>
             <span class="notifed_text">Notified</span>
             <button class="update" type="submit">
              <span class="update_button_text">Update</span>
             </button>
             <button class="delete" type="submit">
-             <span class="delete_button_text">Delete</span>
+              Delete
             </button>
           </form>
-          <form name ='notify_form' id='notify_form' action='/.../' method='...'>
-            <textarea name='notify_text' class="notify_text"></textarea>
+          <form name='notify_form' class='notify_form' action='/notify' method='POST'>
+            <input type="hidden" value="<%= item.order_id %>" class="hidden-order-id">
+            <input type="number" name='eta' class="notify_text" placeholder="ETA" required>
             <button class="notify" type="submit">
              <span class="notify_button_text">Notify</span>
             </button>
@@ -43,5 +47,6 @@
       </div>
     <% }); %>
 
+  <% include ./partials/_footer.ejs %>
   </body>
 </html>

@@ -79,7 +79,7 @@ app.get("/", (req, res) => {
 
   knex.select('*').from('menu').asCallback( (err, query) => {
     const vars = {render: query};
-    console.log(query);
+    //console.log(query);
 
     res.status(200).render("index", vars);
   });
@@ -121,7 +121,7 @@ app.get("/dashboard", (req, res) => {
       finalObj['order_id'] = order_id;
       finalObj['items']={};
       for(let i = 0; i < array_without_duplicates.length; i ++) {
-        let name = `item${i+1}`
+        let name = `item${i+1}`;
         finalObj['items'][name] = array_without_duplicates[i];
       }
       finalArray.push(finalObj);
@@ -226,7 +226,7 @@ app.get("/dashboard", (req, res) => {
 // To place orders
 app.post('/order', (req,res) => {
  const uName = req.body.name;
- const uPhone = req.body.phone;
+ const uPhone = Number(req.body.phone);
  const orderedAt = moment(new Date()).tz('America/Edmonton').format();
  const timeDisplay = moment(new Date()).tz('America/Edmonton').format("dddd, MMMM Do YYYY, h:mm:ss a");
  let orderedItems = Object.values(req.body.order);
@@ -453,9 +453,9 @@ app.post('/notify', (req,res) => {
       })
       .then((message) => console.log(message.sid));
     }, (eta * 1000 * 60) );
-    res.sendStatus(200);
+    // res.sendStatus(200);
+    res.redirect('/dashboard');
     } );
-  res.status(200);
 });
 
 app.listen(PORT, () => {

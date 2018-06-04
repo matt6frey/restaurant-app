@@ -1,0 +1,59 @@
+.company_pic {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 150px;
+}
+
+button {
+  width: 115px;
+  height: 60px;
+  background-color: white;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+  font-size:1.2em;
+  cursor: pointer;
+  outline: 0;
+
+  .button_text {
+  font-weight: 500;
+  color: #000;
+  }
+}
+
+.check {
+   height: 30px;
+  }
+
+.place_order {
+   height: 30px;
+  }
+
+button:hover {
+  background-color: #e8a31f;
+
+  .button_text {
+  color: black;
+  }
+}
+#check_order_form .check_order_text {
+  resize: none;
+  border-radius: 5px;
+  width: 100px;
+  height: 30px;
+}
+
+#place_order_form .name {
+  resize: none;
+  border-radius: 5px;
+  width: 200px;
+  height: 30px;
+}
+
+#place_order_form .number {
+  resize: none;
+  border-radius: 5px;
+  width: 200px;
+  height: 30px;
+}

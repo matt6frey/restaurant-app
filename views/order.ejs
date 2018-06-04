@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <% include ./partials/_header.ejs %>
-  <h1>Your Order</h1>
+  <h1 class="order-h1 text-center py-3">Your Order</h1>
   <body>
 
      <div class="order_container">
@@ -11,20 +11,25 @@
        </section>
 
        <% for (let item in render.items) { %>
-        <section class="the_bird_special">
+        <section class="order-details">
           <img class="logo" src="/images/<%= render.items[item][0] %>.jpg" style="width:200px;height:150px;">
-           <span class="food_name"><%= render.items[item][0] %></span>
+          <div class="menu-item-info">
+            <span class="food_name"><%= render.items[item][0] %></span>
             <span class="food_description"><%= render.items[item][2] %></span>
-          <span class="the_bird_special_price"><%= render.items[item][3] %></span>
-          <span class="quantity">Quantity: <%= render.items[item][1] %></span>
+            <div class="qty-selection">
+              <span class="food_price">$<%= render.items[item][3] %></span>
+              <span class="quantity">Quantity: <%= render.items[item][1] %></span>
+            </div>
+          </div>
         </section>
         <% } %>
 
         <section class="order_container_footer">
           <span class="eta">Ready In: ETA FROM OWNER HERE</span>
-          <span class="total">Total: $<%= render.total_price %></span>
+          <span class="total">Total: $<%= Number(render.total_price).toFixed(2) %></span>
         </section>
       </div>
 
+  <% include ./partials/_footer.ejs %>
   </body>
 </html>

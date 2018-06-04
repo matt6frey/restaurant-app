@@ -5,35 +5,39 @@
     <div class="menu_container">
 
       <section class="categories">
-        <button class="all" type="submit">
-         <span class="all_text">All</span>
+        <button class="all btn" type="submit">
+          All
         </button>
-        <button class="breakfast" type="submit">
-         <span class="breakfast_text">Breakfast</span>
+        <button class="breakfast btn" type="submit">
+          Breakfast
         </button>
-        <button class="lunch" type="submit">
-         <span class="lunch_text">Lunch</span>
+        <button class="lunch btn" type="submit">
+          Lunch
         </button>
-        <button class="dinner" type="submit">
-         <span class="dinner_text">Dinner</span>
+        <button class="dinner btn" type="submit">
+          Dinner
         </button>
       </section>
 
       <!-- Render menu items -->
        <% render.forEach(function(item) { %>
          <div class="<%= item.meal_type %>">
-           <img class="logo" src="/images/<%= item.name %>.jpg" style="width:200px;height:150px;">
-           <span class="food_name"><%= item.name %></span>
-            <span class="food_description"><%= item.description %></span>
-            <span class="food_price">$<%= item.price %></span>
-            <input type="checkbox" class="checkbox">
-            <span class="test" style="display:none">test</span>
-           <select class="dropdown">
-            <option selected>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-           </select>
+            <img class="logo" src="/images/<%= item.name %>.jpg" style="width:200px;height:150px;">
+            <div class="menu-item-info">
+              <span class="food_name"><%= item.name %></span>
+              <span class="food_description"><%= item.description %></span>
+              <div class="qty-selection">
+                <span class="food_price">$<%= item.price %></span>
+                <input type="checkbox" class="<%= item.name %>">
+                <span class="test" style="display:none">test</span>
+                <select name="selector" class="<%= (item.name).replace(/[^0-9a-z]/gi, ''); %>">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+              </div>
+            </div>
           </section>
           </div>
         <% }); %>
@@ -45,11 +49,11 @@
             <span class="order_text">Order</span>
           </button>
 
-        <form name ='order_form' id='order_form' action='/.../' method='...'>
+        <form name ='order_form' id='place_order_form' action='/order' method='post'>
           <span class="name_text">Name</span>
-          <textarea name='text' class="name" placeholder="John Smith"></textarea>
+          <input name='text' class="name" placeholder="John Smith" pattern="g[^select|^table|^drop|^users|^delete|^insert|^where])" required>
           <span class="number_text">Number</span>
-          <textarea name='text' class="number" placeholder="123-456-7890"></textarea>
+          <input name='text' class="number" placeholder="123-456-7890" pattern="[0-9]{10}" required>
           <input type="submit" value="Place Order">
         </form>
           <!-- toggle between these -->
@@ -58,7 +62,6 @@
       </section>
 
     </div>
-    <!-- App JS -->
-    <script defer type="text/javascript" src="/scripts/app.js"></script>
+    <% include ./partials/_footer.ejs %>
   </body>
 </html>
