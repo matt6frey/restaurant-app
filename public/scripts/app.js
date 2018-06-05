@@ -1,6 +1,7 @@
 
 $(document).ready(function() {
-
+let menuDisplay = false;
+let menuCreated = false;
 //to delete from dashboard
 $('button.delete').on('click', (event) => {
   event.preventDefault();
@@ -26,6 +27,27 @@ $('.rwd-menu').on('click', () => {
   const menuBtn = $('.menu.btn.btn-primary');
   const homeBtn = $('.home.btn.btn-primary');
   const checkOrderBtn = $('.check_order.btn.btn-primary');
+  const sectionInfo = $('.info');
+  const location = $('.location');
+  const menuBG = $('<div></div>').attr({ class: "menuBG", style: "position: fixed; z-index:9; top:0; left: 0; background-color: #fff; height: 100vh; width: 100vh; display:none;"});
+
+  if(menuDisplay === false) {
+    menuDisplay = true;
+    if(menuCreated === false) {
+      menuCreated = true;
+      $('body').prepend(menuBG.insertAfter(menuBtn.css('display', 'block'), homeBtn.css('display', 'block'), checkOrderBtn.css('display', 'block'), sectionInfo.css('display', 'block'), location.css('display', 'block')));
+    }
+    $('.menuBG, .menu.btn.btn-primary, .home.btn.btn-primary, .check_order.btn.btn-primary, .info, .location').fadeIn( 'slow', 'linear' );
+
+  } else {
+    console.log('fired');
+    menuDisplay = false;
+    $('.menuBG, .menu.btn.btn-primary, .home.btn.btn-primary, .check_order.btn.btn-primary, .info, .location').fadeToggle( 'slow', 'linear' );
+  }
+
+
+
+
 });
 
 //to update from dashboard

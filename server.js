@@ -436,7 +436,7 @@ app.post('/delete', (req, res) => {
     });
   // knex.select('complete').from('order_list').where('order_ticket.unqiue', id).update().then( (column) => {
 
-  }) // order
+  }); // order
 
 app.post('/new-notify', (req,res) => {
   const orderID = req.body.id; // Order for customer

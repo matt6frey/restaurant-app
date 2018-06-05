@@ -125,7 +125,7 @@ span.food_price {
     font-weight:bold;
 }
 
-input.checkbox {
+.qty-selection > input {
     width: 25px;
     height: 25px;
     margin: 0;
@@ -144,8 +144,10 @@ select.dropdown {
 button.order, #place_order_form input[type="submit"] {
     padding: 0.5rem 1rem;
     border-radius: 7px;
-    color: #00c300;
-    border-color: #00c300;
+    color: #000;
+    bottom:0;
+    background-color: #e77739;
+    border-color: #e77739;
     text-align: right;
     display: block;
     position:absolute;
@@ -159,8 +161,8 @@ button.order, #place_order_form input[type="submit"] {
     background-color: #e77739;
     padding: 1rem;
     position: fixed;
-    bottom: -95px;
     left: 0;
+    bottom: 0;
     width: 70%;
     text-align:right;
     transition: bottom 0.5s ease-in-out;
@@ -253,6 +255,11 @@ button.notify, .notified_form button  {
 .order_container_footer span.total {
     color: #fff;
 }
+
+.rwd-menu {
+    display:none;
+}
+
 /* Bootstrap Over-rides */
 
 .btn, button.notify, .notified_form button  {
@@ -265,11 +272,13 @@ button.notify, .notified_form button  {
     border-color: #ff7f00;
 }
 
-@media screen and (max-width:320px) {
+/* media queries */
+
+@media screen and (max-width:800px) {
 
     .nav {
         width: 100%;
-        height: 20vh;
+        height: 70px;
         top:0;
         right: inherit;
     }
@@ -293,13 +302,18 @@ button.notify, .notified_form button  {
     }
 
     .menu_container {
+        top: 4rem;
         width: 100%;
-        padding: 0.5rem;
+        padding: 0.5rem 0.5rem 14rem;
     }
 
     #place_order_form {
         width: 100%;
-        bottom: -210px;
+        bottom: 0;
+    }
+    
+    section.categories > button {
+        margin: 1rem 0;
     }
 
     .order_container {
@@ -314,8 +328,43 @@ button.notify, .notified_form button  {
     }
 
     button.order {
-        width: 100%;
+        width: 95%;
+        right: -0.5rem;
+        color: #000;
+        background-color: #e77739;
+        border-color: #e77739;
+        text-align: center;
         
     }
 
+    .rwd-menu {
+        position: fixed;
+        top: -0.5rem;
+        right: 1rem;
+        z-index: 20;
+        display:block;
+    }
+
+    .menu.btn.btn-primary,
+    .home.btn.btn-primary,
+    .check_order.btn.btn-primary,
+    .info,
+    .location {
+        display: none;
+        width: 100%;
+    }
+
+    .menu.btn.btn-primary {
+        margin-top: 1rem;
+    }
+   
+   #place_order_form {
+       text-align: right;
+       bottom: 0;
+   } 
+
+   input.name, input.number {
+        width: 150px;
+        margin-bottom: 1rem
+   }
 }
