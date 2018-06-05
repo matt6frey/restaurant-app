@@ -75,10 +75,8 @@ function count(array_elements) {
 
 // Home page
 app.get("/", (req, res) => {
-  let menu = [];
-
   knex.select('*').from('menu').asCallback( (err, query) => {
-    const vars = {render: query};
+    const vars = { render: query };
     //console.log(query);
 
     res.status(200).render("index", vars);
