@@ -1,10 +1,10 @@
 // Comment this line in for Localhost
-//require('dotenv').config();
+require('dotenv').load();
 
 module.exports = {
 
   development: {
-    client: 'pg',
+    client: 'postgres',
     connection: {
       host     : process.env.DATABASE_URL || process.env.DB_HOST,
       user     : process.env.DB_USER,
@@ -20,11 +20,11 @@ module.exports = {
     seeds: {
       directory: './db/seeds'
     },
-    pool: { min:0, max: 7 }
+    pool: { min:0, max: 10 }
   },
 
   production: {
-    client: 'pg',
+    client: 'postgres',
     connection: process.env.DATABASE_URL,
     pool: {
       min: 2,
