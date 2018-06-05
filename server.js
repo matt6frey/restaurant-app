@@ -222,9 +222,15 @@ app.get("/dashboard", (req, res) => {
 
 });
 
+app.get('/order', (req, res) => {
+  res.redirect('/');
+});
 
 // To place orders
 app.post('/order', (req,res) => {
+  if(Object.keys(req.body).length === 0) {
+    res.redirect('/');
+  }
  const uName = req.body.name;
  const uPhone = Number(req.body.phone);
  const orderedAt = moment(new Date()).tz('America/Edmonton').format();
@@ -290,10 +296,17 @@ app.post('/order', (req,res) => {
 // Route for user order
 app.get('/order/:id', (req,res) => {
  const orderID = req.params.id;
-
+  if(Number.isInteger(orderID) === false) {
+      res.redirect('/');
+  }
  let finalArray = [];
  knex('order_list').join('menu','order_list.menu_id', 'menu.unique_id').join('order_ticket','order_list.order_id', 'order_ticket.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price', 'time_ordered').where('order_list.order_id', '=', `${ orderID }`).then( (allOrders) => {
   //debug allOrders result: console.log(allOrders)
+    if(allOrders.length === 0) {
+      res.redirect('/');
+    }
+
+
     let marker = '';
     let namePos = 0;
     let totalPrice = 0;
