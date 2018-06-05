@@ -2,25 +2,25 @@
 $(document).ready(function() {
 
 //to delete from dashboard
-$('button.delete').on('click', (event) => {
-  event.preventDefault();
-  let obj = {};
-  obj['id'] = $(this).closest('form').find('.hidden-order-id').val();
-  console.log(obj);
+// $('button.delete').on('click', (event) => {
+//   event.preventDefault();
+//   let obj = {};
+//   obj['id'] = $(this).closest('form').find('.hidden-order-id').val();
+//   console.log(obj);
 
- $.ajax({
-      type: "POST",
-      url: `/delete/${obj}`,
-      data: JSON.stringify(obj),
-      contentType: "application/json",
-      success: function(msg) {
-          // console.log(msg);
-      },
-      error: function(msg) {
-      console.log('error');
-      }
-    });
-  });
+//  $.ajax({
+//       type: "POST",
+//       url: `/delete/${obj}`,
+//       data: JSON.stringify(obj),
+//       contentType: "application/json",
+//       success: function(msg) {
+//           // console.log(msg);
+//       },
+//       error: function(msg) {
+//       console.log('error');
+//       }
+//     });
+//   });
 
 $('.rwd-menu').on('click', () => {
   const menuBtn = $('.menu.btn.btn-primary');
@@ -28,27 +28,8 @@ $('.rwd-menu').on('click', () => {
   const checkOrderBtn = $('.check_order.btn.btn-primary');
 });
 
-//to update from dashboard
-$( "button.update" ).on( "click", function( event ) {
-  event.preventDefault();
-  let obj = {};
-  obj['eta'] = $(this).closest('form').find('.notify_text').val();
-  obj['id'] = $(this).closest('form').find('.hidden-order-id').val();
-  console.log(obj);
-    $.ajax({
-      type: "POST",
-      url: "/new-notify",
-      data: JSON.stringify(obj),
-      contentType: "application/json",
-      success: function(msg) {
-          // console.log(msg);
-      },
-      error: function(msg) {
-      console.log('error');
-      }
-    });
-  });
 
+//toggle for categories for menu
 $('button').on('click', (event) => {
   // Show only the correct menu items from click
   const target = $(event.target).attr('class');
@@ -77,6 +58,30 @@ $('button').on('click', (event) => {
   const elem = $(this).attr('class');
 
 });
+
+//toggle for pending and completed on dashboard
+$("input.complete_status[value='true']").closest('div.order_container').hide();
+$('.completed.btn').on('click', (event) => {
+  $("input.complete_status[value='false']").closest('div.order_container').hide();
+  $("input.complete_status[value='true']").closest('div.order_container').fadeIn( "slow", "linear" );
+});
+
+$('.pending.btn').on('click', (event) => {
+  $("input.complete_status[value='false']").closest('div.order_container').fadeIn( "slow", "linear" );
+  $("input.complete_status[value='true']").closest('div.order_container').hide();
+});
+//toggle for pending and completed on dashboard
+
+//checks if order has been updated on dashboard
+$("input.update_status[value='true']").closest('div.order_container').find('form.notify_form').hide();
+$("input.update_status[value='true']").closest('div.order_container').find('form.notified_form').show();
+//checks if order has been updated on dashboard
+
+//hides every option if order is completed
+$("input.complete_status[value='true']").closest('div.order_container').find('form.notify_form').hide();
+$("input.complete_status[value='true']").closest('div.order_container').find('form.notified_form').hide();
+//hides every option if order is completed
+
 
 //to check order
 $( "#check_order_form" ).on( "submit", function( event ) {
@@ -117,8 +122,6 @@ $( ".notify_form" ).on( "submit", function( event ) {
     setTimeout(()=> {
       $(this).closest('.order_container').find('.notified_form').fadeIn( 'slow', 'linear' );
       input.val('');
-      $(this).closest('.order_container').find('.notified_form > .notifed_text').append(input.attr({ placeholder: 'ETA', type: 'number', name: 'eta', required: true, style: 'margin-left: 1rem; margin-right: 0.5rem;' })).fadeIn('slow', 'linear');
-
 
     }, 800);
   });

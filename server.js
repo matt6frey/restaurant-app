@@ -89,7 +89,7 @@ app.get("/", (req, res) => {
 app.get("/dashboard", (req, res) => {
 
   let finalArray = [];
-  knex('order_list').join('menu','order_list.menu_id', 'menu.unique_id').join('order_ticket','order_list.order_id', 'order_ticket.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price', 'time_ordered').then( (allOrders) => {
+  knex('order_list').join('menu','order_list.menu_id', 'menu.unique_id').join('order_ticket','order_list.order_id', 'order_ticket.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price', 'time_ordered', 'complete', 'update').then( (allOrders) => {
     //to debug result of sql query: console.log(allOrders);
     let marker = '';
     let namePos = 0;
@@ -142,6 +142,7 @@ app.get("/dashboard", (req, res) => {
       for (var prop in finalArray[i].items) {
         let tempArray = finalArray[i].items[prop];
         let food_name = finalArray[i].items[prop][0];
+
         nameArray.forEach(function(item) {
 
           if (item.name === food_name){
@@ -184,10 +185,14 @@ app.get("/dashboard", (req, res) => {
 
     //puts total price for order
     finalArray.forEach(function(item) {
-
       let total = 0;
+
       for (let prop in item.items) {
-        total += Number(item.items[prop][3]);
+        let tempNum = Number(item.items[prop][3]);
+        let tempQuantity = Number(item.items[prop][1]);
+        let tempMultiPrice = tempNum * tempQuantity;
+        total += tempMultiPrice;
+
       }
       item['total_price'] = total;
     });
@@ -214,7 +219,56 @@ app.get("/dashboard", (req, res) => {
     });
     //puts date for order
 
-    //debug final array: console.log(finalArray[0]);
+
+    //adding complete values from order_ticket to each order
+    let complete_check = '';
+    let completeObj = {};
+    allOrders.forEach( (item) => {
+
+      if (complete_check === '' || complete_check !== item.order_id) {
+        complete_check = item.order_id;
+        completeObj[item.order_id] = [];
+      }
+      if (item.complete === false || item.complete === null) {
+
+       completeObj[item.order_id] = 'false';
+      } else {
+        completeObj[item.order_id] = 'true';
+      }
+    });
+
+    finalArray.forEach(function(item) {
+
+      item['complete'] = completeObj[item.order_id];
+    });
+     //adding complete values from order_ticket to each order
+
+     //adding update values from order_ticket to each order
+    let update_check = '';
+    let updateObj = {};
+    allOrders.forEach( (item) => {
+
+      if (update_check === '' || update_check !== item.order_id) {
+        update_check = item.order_id;
+        updateObj[item.order_id] = [];
+      }
+      if (item.update === false || item.update === null) {
+
+      updateObj[item.order_id] = 'false';
+      } else {
+        updateObj[item.order_id] = 'true';
+      }
+    });
+
+    finalArray.forEach(function(item) {
+
+      item['update'] = updateObj[item.order_id];
+    });
+     //adding update values from order_ticket to each order
+
+
+    //debug final array:
+     console.log(finalArray[0]);
 
     const vars = {render: finalArray};
     res.status(200).render("dashboard", vars);
@@ -386,11 +440,15 @@ app.get('/order/:id', (req,res) => {
   //   //put in price for each item
 
   //   //puts total price for order
+  console.log(finalArray[0]);
     finalArray.forEach(function(item) {
 
       let total = 0;
       for (let prop in item.items) {
-        total += Number(item.items[prop][3]);
+        let tempNum = Number(item.items[prop][3]);
+        let tempQuantity = Number(item.items[prop][1]);
+        let tempMultiPrice = tempNum * tempQuantity;
+        total += tempMultiPrice;
       }
       item['total_price'] = total;
     });
@@ -425,55 +483,16 @@ app.get('/order/:id', (req,res) => {
   });
 });
 
-app.post('/delete', (req, res) => {
-
-  const id = req.body.id;
-  console.log("ID: ", id);
-
-  knex('order_ticket').where('unique_id', Number(id)).select('complete').update("complete", true).then((updated) => {
-      console.log(updated);
-      res.sendStatus(200);
-    });
-  // knex.select('complete').from('order_list').where('order_ticket.unqiue', id).update().then( (column) => {
-
-  }) // order
-
-app.post('/new-notify', (req,res) => {
-  const orderID = req.body.id; // Order for customer
-  const eta = req.body.eta; // Restaurant's ETA
-
-  knex('order_ticket').join('users','order_ticket.user_id', 'users.unique_id').select('users.name', 'users.phone_num').where("order_ticket.unique_id", Number(orderID)).then( (customer) => {
-    // Customer Info & Company Location/Order Link
-    const name = customer[0].name;
-    const phoneNum = customer[0].phone_num;
-    const location = "111 Main Street NW, Calgary, AB, T1Y 1P4";
-    const url = 'http://localhost:8080/order/' + orderID;
-
-    // Send initial notification
-    client.messages.create({
-        body: `Hey ${ name }, Your order has been recieved and will be ready in ${ eta } minutes. For more details regarding your order, check out: ${ url }`,
-        to: '+1' + phoneNum,  // Text this number
-        from: `+${ process.env.NUM }` // From a valid Twilio number
-    })
-    .then((message) => console.log(message.sid));
-    // Sets a timeout for the order completion text.
-    setTimeout( (completed) => {
-      client.messages.create({
-          body: `Hey ${ name }, Your order is ready for pick up at our location: ${ location }.`,
-          to: '+1' + phoneNum,  // Text this number
-          from: `+${ process.env.NUM }` // From a valid Twilio number
-      })
-      .then((message) => console.log(message.sid));
-    }, (eta * 1000 * 60) );
-    // res.sendStatus(200);
-    res.redirect('/dashboard');
-    } );
-});
-
 app.post('/notify', (req,res) => {
   const orderID = req.body.id; // Order for customer
   const eta = req.body.eta; // Restaurant's ETA
 
+    //updates databse to show that order has been updated
+  knex('order_ticket').where('unique_id', Number(orderID)).select('update').update("update", true).then((updated) => {
+      console.log(`order_id:${orderID} updated`);
+    });
+
+
   knex('order_ticket').join('users','order_ticket.user_id', 'users.unique_id').select('users.name', 'users.phone_num').where("order_ticket.unique_id", Number(orderID)).then( (customer) => {
     // Customer Info & Company Location/Order Link
     const name = customer[0].name;
@@ -490,6 +509,11 @@ app.post('/notify', (req,res) => {
     .then((message) => console.log(message.sid));
     // Sets a timeout for the order completion text.
     setTimeout( (completed) => {
+      //updates database to show order is completed
+        knex('order_ticket').where('unique_id', Number(orderID)).select('complete').update("complete", true).then((updated) => {
+        console.log(`order_id:${orderID} completed`);
+      });
+        //sends message
       client.messages.create({
           body: `Hey ${ name }, Your order is ready for pick up at our location: ${ location }.`,
           to: '+1' + phoneNum,  // Text this number

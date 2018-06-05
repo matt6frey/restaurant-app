@@ -1,0 +1,117 @@
+/*menu button*/
+.menu {
+  width: 115px;
+  height: 60px;
+  margin-top: 9px;
+  background-color: white;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+  font-size:1.2em;
+  cursor: pointer;
+  outline: 0;
+}
+
+.menu:hover {
+  background-color: #e8a31f;
+}
+
+.menu .menu_text {
+  font-weight: 600;
+  color: #000;
+}
+.menu:hover .menu_text {
+  color: black;
+}
+/*menu button*/
+
+/*home button*/
+.home {
+  width: 115px;
+  height: 60px;
+  margin-top: 9px;
+  background-color: white;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+  font-size:1.2em;
+  cursor: pointer;
+  outline: 0;
+}
+
+.home:hover {
+  background-color: #e8a31f;
+}
+
+.home .home_text {
+  font-weight: 600;
+  color: #000;
+}
+.home:hover .home_text {
+  color: black;
+}
+/*home button*/
+
+/*check order button*/
+.check_order {
+  width: 115px;
+  height: 60px;
+  margin-top: 9px;
+  background-color: white;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+  font-size:1.2em;
+  cursor: pointer;
+  outline: 0;
+}
+
+.check_order:hover {
+  background-color: #e8a31f;
+}
+
+.check_order .check_order_text {
+  font-weight: 600;
+  color: #000;
+}
+.check_order:hover .check_order_text {
+  color: black;
+}
+/*check order button*/
+
+/*check button*/
+.check {
+  width: 115px;
+  height: 30px;
+  margin-top: 9px;
+  background-color: white;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+  font-size:1.2em;
+  cursor: pointer;
+  outline: 0;
+}
+
+.check:hover {
+  background-color: #e8a31f;
+}
+
+.check .check_text {
+  font-weight: 600;
+  color: #000;
+}
+.check:hover .check_text {
+  color: black;
+}
+/*check button*/
+
+
+#check_order_form .check_order_text {
+  resize: none;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  border-radius: 5px;
+  width: 100px;
+  height: 30px;
+}

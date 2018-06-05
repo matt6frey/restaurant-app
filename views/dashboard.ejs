@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <% include ./partials/_header.ejs %>
-  <body>
+
+      <section class="dashboard_categories">
+        <button class="pending btn" type="submit">
+          Pending
+        </button>
+        <button class="completed btn" type="submit">
+          Completed
+        </button>
+      </section>
 
     <% render.forEach(function(item) { %>
-     <div class="order_container">
+     <div class="order_container" >
+      <input type="hidden" value="<%= item.complete %>" class="complete_status">
+      <input type="hidden" value="<%= item.update %>" class="update_status">
        <section class="order_container_header">
         <span class="order_id">Order ID: <%= item.order_id %></span>
         <span class="date">Time of Order: <%= item.time_ordered %></span>
@@ -26,15 +36,8 @@
         <section class="order_container_footer">
           <!-- toggle between these -->
           <form name='notified_form' class='notified_form' action='/notify' method='POST'>
-            <input type="hidden" value="<%= item.order_id %>" class="hidden-order-id">
             <i class="fa fa-check-circle"></i>
             <span class="notifed_text">Notified</span>
-            <button class="update">
-             <span class="update_button_text">Update</span>
-            </button>
-            <!-- <button class="delete">
-              Delete
-            </button> -->
           </form>
           <form name='notify_form' class='notify_form' action='/notify' method='POST'>
             <input type="hidden" value="<%= item.order_id %>" class="hidden-order-id">
