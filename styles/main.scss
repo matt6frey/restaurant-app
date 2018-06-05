@@ -1,64 +1,25 @@
 @charset "UTF-8";
 
-/* .company_pic {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 150px;
+$orange: #e87503;
+$orange2: #e77739;
+$white: #fff;
+$black: #000;
+
+@mixin trans($val) {
+  -webkit-transition: $val;
+     -moz-transition: $val;
+      -ms-transition: $val;
+       -o-transition: $val;
+          transition: $val;
 }
 
-button {
-  width: 115px;
-  height: 60px;
-  background-color: white;
-  border-color: black;
-  border-width: 1px;
-  border-radius: 5px;
-  font-size:1.2em;
-  cursor: pointer;
-  outline: 0;
-
-  .button_text {
-  font-weight: 500;
-  color: #000;
-  }
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+       -o-border-radius: $radius;
+          border-radius: $radius;
 }
-
-.check {
-   height: 30px;
-  }
-
-.place_order {
-   height: 30px;
-  }
-
-button:hover {
-  background-color: #e8a31f;
-
-  .button_text {
-  color: black;
-  }
-}
-#check_order_form .check_order_text {
-  resize: none;
-  border-radius: 5px;
-  width: 100px;
-  height: 30px;
-}
-
-#place_order_form .name {
-  resize: none;
-  border-radius: 5px;
-  width: 200px;
-  height: 30px;
-}
-
-#place_order_form .number {
-  resize: none;
-  border-radius: 5px;
-  width: 200px;
-  height: 30px;
-} */
 
 body {
     background-image: url(https://design-milk.com/images/2014/09/Bibo-Restaurant-Lounge-Substance-1.jpg);
@@ -67,7 +28,7 @@ body {
 }
 
 .nav {
-  background-color: #fff;
+  background-color: $white;
   display: inline-block;
   width: 30%;
   text-align: center;
@@ -133,8 +94,8 @@ body {
   .notified_form button {
       margin: 0 1rem;
       background-color: transparent;
-      color: #fff;
-      border:solid 2px #fff;
+      color: $white;
+      border:solid 2px $white;
   }
 
   div.breakfast,
@@ -162,7 +123,7 @@ body {
       margin-bottom: 1rem;
       margin-left:1rem;
       vertical-align: top;
-      box-shadow: 0 0 5px #000;
+      box-shadow: 0 0 5px $black;
     }
   }
 }
@@ -175,14 +136,14 @@ div.menu-item-info, .order_container {
 }
 
 span.food_name {
-    color: #e87503;
+    color: $orange;
     display: block;
     font-weight: bold;
     margin: 1rem 0;
 }
 
 span.food_description {
-    color: #fff;
+    color: $white;
     display: block;
     margin: 1rem 0;
 }
@@ -194,7 +155,7 @@ span.food_description {
 
 span.food_price {
     margin-right: 1rem;
-    color: #e87503;
+    color: $orange;
     font-weight:bold;
 }
 
@@ -203,24 +164,24 @@ span.food_price {
     height: 25px;
     margin: 0;
     vertical-align: bottom;
-    box-shadow: 0 0 5px #000;
+    box-shadow: 0 0 5px $black;
 }
 
 select.dropdown {
     padding: 0.25rem;
-    background-color: #fff;
-    border-radius: 3px;
+    background-color: $white;
+    @include border-radius(3px);
     color: #666;
-    box-shadow: 0 0 5px #000;
+    box-shadow: 0 0 5px $black;
 }
 
 #place_order_form input[type="submit"] {
     padding: 0.5rem 1rem;
-    border-radius: 7px;
-    color: #000;
+    @include border-radius(7px);
+    color: $black;
     bottom:0;
-    background-color: #e77739;
-    border-color: #e77739;
+    background-color: $orange;
+    border-color: $orange;
     text-align: right;
     display: block;
     position:absolute;
@@ -229,19 +190,19 @@ select.dropdown {
 }
 
 #place_order_form {
-  background-color: #e77739;
+  background-color: $orange;
   padding: 1rem;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 70%;
   text-align:right;
-  transition: bottom 0.5s ease-in-out;
+  @include trans('bottom 0.5s ease-in-out');
 
    input.name, input.number {
     padding: 0.5rem;
-    border-radius: 5px;
-    border: solid 2px #fff;
+    @include border-radius(5px);
+    border: solid 2px $white;
   }
 
   span.name_text, span.number_text {
@@ -259,8 +220,8 @@ select.dropdown {
     left:inherit;
     bottom: inherit;
     background-color: transparent;
-    border: solid 2px #fff;
-    color: #fff;
+    border: solid 2px $white;
+    color: $white;
     margin-left: 1rem;
     margin-right: 0.5rem;
     right: 0;
@@ -269,7 +230,7 @@ select.dropdown {
   input[type="submit"]:hover {
     border: solid 2px #bb5218;
     background-color: #bb5218;
-    color: #fff;
+    color: $white;
   }
 }
 
@@ -281,17 +242,17 @@ span.total {
 .order_container_header {
   margin: 1rem 0;
   text-align: center;
-  color: #fff;
+  color: $white;
 }
 
 span.quantity {
-    color: #fff;
+    color: $white;
 }
 
 input.notify_text {
     padding: 0.25rem;
     border: solid 1px #666;
-    border-radius: 3px;
+    @include border-radius(3px);
     margin-right: 0.5rem;
     text-align:center;
     width: 85px;
@@ -311,7 +272,7 @@ input.notify_text {
 
 button.notify, .notified_form button  {
     padding: 0.25rem 1rem;
-    border-radius: 3px;
+    @include border-radius(3px);
 }
 
 .notified_form button {
@@ -319,7 +280,7 @@ button.notify, .notified_form button  {
 }
 
 .notified_form i, .notifed_text {
-    color: #fff;
+    color: $white;
     margin-right: 1rem;
 }
 
@@ -328,7 +289,7 @@ button.notify, .notified_form button  {
 }
 
 .order_container_footer span.total {
-    color: #fff;
+    color: $white;
 }
 
 .rwd-menu {
@@ -338,8 +299,8 @@ button.notify, .notified_form button  {
 /* Bootstrap Over-rides */
 
 .btn, button.notify, .notified_form button  {
-    background-color: #e87503;
-    border-color: #e87503;
+    background-color: $orange;
+    border-color: $orange;
 }
 
 .btn:hover, .btn:active, button.notify, .notified_form button  {

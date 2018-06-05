@@ -1,62 +1,3 @@
-/* .company_pic {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 150px;
-}
-
-button {
-  width: 115px;
-  height: 60px;
-  background-color: white;
-  border-color: black;
-  border-width: 1px;
-  border-radius: 5px;
-  font-size:1.2em;
-  cursor: pointer;
-  outline: 0;
-
-  .button_text {
-  font-weight: 500;
-  color: #000;
-  }
-}
-
-.check {
-   height: 30px;
-  }
-
-.place_order {
-   height: 30px;
-  }
-
-button:hover {
-  background-color: #e8a31f;
-
-  .button_text {
-  color: black;
-  }
-}
-#check_order_form .check_order_text {
-  resize: none;
-  border-radius: 5px;
-  width: 100px;
-  height: 30px;
-}
-
-#place_order_form .name {
-  resize: none;
-  border-radius: 5px;
-  width: 200px;
-  height: 30px;
-}
-
-#place_order_form .number {
-  resize: none;
-  border-radius: 5px;
-  width: 200px;
-  height: 30px;
-} */
 body {
   background-image: url(https://design-milk.com/images/2014/09/Bibo-Restaurant-Lounge-Substance-1.jpg);
   background-size: cover;
@@ -192,6 +133,10 @@ span.food_price {
 select.dropdown {
   padding: 0.25rem;
   background-color: #fff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
   border-radius: 3px;
   color: #666;
   box-shadow: 0 0 5px #000;
@@ -199,11 +144,15 @@ select.dropdown {
 
 #place_order_form input[type=submit] {
   padding: 0.5rem 1rem;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -o-border-radius: 7px;
   border-radius: 7px;
   color: #000;
   bottom: 0;
-  background-color: #e77739;
-  border-color: #e77739;
+  background-color: #e87503;
+  border-color: #e87503;
   text-align: right;
   display: block;
   position: absolute;
@@ -212,17 +161,25 @@ select.dropdown {
 }
 
 #place_order_form {
-  background-color: #e77739;
+  background-color: #e87503;
   padding: 1rem;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 70%;
   text-align: right;
-  transition: bottom 0.5s ease-in-out;
+  -webkit-transition: "bottom 0.5s ease-in-out";
+  -moz-transition: "bottom 0.5s ease-in-out";
+  -ms-transition: "bottom 0.5s ease-in-out";
+  -o-transition: "bottom 0.5s ease-in-out";
+  transition: "bottom 0.5s ease-in-out";
 }
 #place_order_form input.name, #place_order_form input.number {
   padding: 0.5rem;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
   border-radius: 5px;
   border: solid 2px #fff;
 }
@@ -269,6 +226,10 @@ span.quantity {
 input.notify_text {
   padding: 0.25rem;
   border: solid 1px #666;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
   border-radius: 3px;
   margin-right: 0.5rem;
   text-align: center;
@@ -289,6 +250,10 @@ input.notify_text {
 
 button.notify, .notified_form button {
   padding: 0.25rem 1rem;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
   border-radius: 3px;
 }
 
