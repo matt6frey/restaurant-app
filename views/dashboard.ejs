@@ -38,7 +38,7 @@
           </form>
           <form name='notify_form' class='notify_form' action='/notify' method='POST'>
             <input type="hidden" value="<%= item.order_id %>" class="hidden-order-id">
-            <input type="number" name='eta' class="notify_text" placeholder="ETA" required>
+            <input type="number" name='eta' class="notify_text" placeholder="ETA" min="1" required>
             <button class="notify" type="submit">
              <span class="notify_button_text">Notify</span>
             </button>

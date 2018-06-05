@@ -16,24 +16,19 @@ body {
   z-index: 10;
   /* form in nav */
 }
-
 .nav .logo {
   width: 100%;
   max-width: 200px;
 }
-
 .nav h1 {
   margin: 1rem;
 }
-
 .nav button {
   margin: 1.5rem 0;
 }
-
 .nav #check_order_form {
   display: none;
 }
-
 .nav .check_order_text {
   width: 100px;
   text-align: center;
@@ -57,15 +52,13 @@ body {
   left: 0;
   width: 70%;
 }
-
 .menu_container section.categories {
   margin-top: 1rem;
   margin-bottom: 1.5rem;
   text-align: center;
 }
-
 .menu_container section.categories button,
-.menu_container #order_form input[type="submit"],
+.menu_container #order_form input[type=submit],
 .menu_container button.order, .menu_container button.notify,
 .menu_container .notified_form button {
   margin: 0 1rem;
@@ -73,7 +66,6 @@ body {
   color: #fff;
   border: solid 2px #fff;
 }
-
 .menu_container div.breakfast,
 .menu_container div.lunch,
 .menu_container div.dinner,
@@ -82,12 +74,10 @@ body {
   position: relative;
   background-color: rgba(0, 0, 0, 0.65);
 }
-
 .menu_container .order_container {
   width: 67%;
   padding: 1rem 0;
 }
-
 .menu_container div.breakfast img,
 .menu_container div.lunch img,
 .menu_container div.dinner img,
@@ -152,7 +142,7 @@ select.dropdown {
   box-shadow: 0 0 5px #000;
 }
 
-#place_order_form input[type="submit"] {
+#place_order_form input[type=submit] {
   padding: 0.5rem 1rem;
   -webkit-border-radius: 7px;
   -moz-border-radius: 7px;
@@ -184,7 +174,6 @@ select.dropdown {
   -o-transition: "bottom 0.5s ease-in-out";
   transition: "bottom 0.5s ease-in-out";
 }
-
 #place_order_form input.name, #place_order_form input.number {
   padding: 0.5rem;
   -webkit-border-radius: 5px;
@@ -194,17 +183,14 @@ select.dropdown {
   border-radius: 5px;
   border: solid 2px #fff;
 }
-
 #place_order_form span.name_text, #place_order_form span.number_text {
   font-size: 1.15rem;
   margin-right: 0.5rem;
 }
-
 #place_order_form span.number_text {
   margin-left: 1.5rem;
 }
-
-#place_order_form input[type="submit"] {
+#place_order_form input[type=submit] {
   display: inline-block;
   position: static;
   left: inherit;
@@ -216,8 +202,7 @@ select.dropdown {
   margin-right: 0.5rem;
   right: 0;
 }
-
-#place_order_form input[type="submit"]:hover {
+#place_order_form input[type=submit]:hover {
   border: solid 2px #bb5218;
   background-color: #bb5218;
   color: #fff;
@@ -327,21 +312,32 @@ button.notify, .notified_form button {
     display: block;
     margin: 0.5rem 0;
   }
+
+  #check_order_form check.btn.btn-primary {
+    text-align: center;
+    display: block;
+    margin: 1rem auto 2rem;
+  }
+
   .menu_container {
     top: 4rem;
     width: 100%;
     padding: 0.5rem 0.5rem 14rem;
   }
+
   #place_order_form {
     width: 100%;
     bottom: 0;
   }
+
   section.categories button {
     margin: 1rem 0;
   }
+
   body:nth-child(2) {
     margin-top: 5.5rem;
   }
+
   .order_container {
     width: 95%;
   }
@@ -351,6 +347,7 @@ button.notify, .notified_form button {
     left: 1.5rem;
     width: 100%;
   }
+
   .rwd-menu {
     position: fixed;
     top: 0.5rem;
@@ -358,17 +355,24 @@ button.notify, .notified_form button {
     z-index: 20;
     display: block;
   }
+
   .menu.btn.btn-primary,
-  .home.btn.btn-primary,
-  .check_order.btn.btn-primary,
-  .info,
-  .location {
+.home.btn.btn-primary,
+.check_order.btn.btn-primary,
+.info,
+.location {
     display: none;
     width: 100%;
   }
-  .menu.btn.btn-primary {
-    margin-top: 1rem;
+
+  .check_order.btn.btn-primary {
+    margin-top: 2.5rem;
   }
+
+  form#check_order_form button {
+    margin: 1rem auto 2rem;
+  }
+
   #place_order_form {
     text-align: right;
     bottom: 0;
@@ -378,3 +382,5 @@ button.notify, .notified_form button {
     margin-bottom: 1rem;
   }
 }
+
+/*# sourceMappingURL=../public/styles/main.css.map */

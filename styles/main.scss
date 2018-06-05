@@ -337,6 +337,14 @@ button.notify, .notified_form button  {
       }
     }
 
+    #check_order_form {
+      check.btn.btn-primary {
+        text-align: center;
+        display: block;
+        margin: 1rem auto 2rem;
+      }
+    }
+
     .menu_container {
         top: 4rem;
         width: 100%;
@@ -389,9 +397,16 @@ button.notify, .notified_form button  {
         width: 100%;
     }
 
-    .menu.btn.btn-primary {
-        margin-top: 1rem;
+    .check_order.btn.btn-primary {
+        margin-top: 2.5rem;
     }
+
+      form#check_order_form  {
+        button {
+          margin: 1rem auto 2rem;
+        }
+      }
+
 
    #place_order_form {
      text-align: right;

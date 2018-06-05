@@ -24,25 +24,24 @@ $('button.delete').on('click', (event) => {
   });
 
 $('.rwd-menu').on('click', () => {
-  const menuBtn = $('.menu.btn.btn-primary');
-  const homeBtn = $('.home.btn.btn-primary');
   const checkOrderBtn = $('.check_order.btn.btn-primary');
   const sectionInfo = $('.info');
-  const location = $('.location');
+  const location = $('.location').attr('style','text-align:center;');
   const menuBG = $('<div></div>').attr({ class: "menuBG", style: "position: fixed; z-index:9; top:0; left: 0; background-color: #fff; height: 100vh; width: 100vh; display:none;"});
 
   if(menuDisplay === false) {
     menuDisplay = true;
     if(menuCreated === false) {
       menuCreated = true;
-      $('body').prepend(menuBG.insertAfter(menuBtn.css('display', 'block'), homeBtn.css('display', 'block'), checkOrderBtn.css('display', 'block'), sectionInfo.css('display', 'block'), location.css('display', 'block')));
+      $('body').prepend(menuBG.insertAfter(checkOrderBtn.css('display', 'block'), sectionInfo.css('display', 'block'), location.css('display', 'block')));
     }
-    $('.menuBG, .menu.btn.btn-primary, .home.btn.btn-primary, .check_order.btn.btn-primary, .info, .location').fadeIn( 'slow', 'linear' );
+    $('.menuBG, .check_order.btn.btn-primary, .info, .location').fadeIn( 'slow', 'linear' );
 
   } else {
     console.log('fired');
     menuDisplay = false;
-    $('.menuBG, .menu.btn.btn-primary, .home.btn.btn-primary, .check_order.btn.btn-primary, .info, .location').fadeToggle( 'slow', 'linear' );
+    $('.menuBG, .check_order.btn.btn-primary, .info').fadeToggle( 'slow', 'linear' );
+    $('.location').fadeOut('slow','linear');
   }
 
 
@@ -173,27 +172,59 @@ $('.order').on('click', (event) => {
             let no_spaces = (this.className).replace(/[^0-9a-z]/gi, '');
             quantityArr.push($('.' + no_spaces).find(":selected").val());
         });
-        for (let i = 0; i < nameArr.length; i ++) {
-          for (let j = 0; j < quantityArr[i]; j ++) {
-            if ($.isEmptyObject(obj.order)) {
-              obj['order'][`${j+1}`] = nameArr[i];
-            } else {
-              let last_key = Number(Object.keys(obj['order'])[(Object.keys(obj['order']).length) - 1]);
-              obj['order'][`${last_key+1}`] = nameArr[i];
+        if(quantityArr.length === 0) {
+          // Create Error MSG container
+          let emptyOrder = $('<div></div>').attr('class', 'errorMSG').css({ position: "fixed", width: "70vh", bottom: "30%", display: "none", padding: "5rem 0",'z-index': '20', left: "13vw", "text-align":"center", "background-color":"white", "border-radius":"7px", "box-shadow":"0 1px 5px #000" });
+          emptyOrder.append($('<h3></h3>').attr('class','text-center').text('No menu items selected'));
+          emptyOrder.append($('<p></p>').attr('class','text-center my-5').text('Please select a few items from the menu.'));
+
+          //Append and Display Error MSG.
+          $('body').prepend(emptyOrder);
+          $('.errorMSG').fadeIn('slow', 'linear');
+          setTimeout(() => {
+            $('.errorMSG').fadeOut('slow', 'linear');
+            setTimeout(() => {
+              $('.errorMSG').remove();
+            }, 800);
+          }, 3000);
+
+          return false;
+        } else {
+          for (let i = 0; i < nameArr.length; i ++) {
+            for (let j = 0; j < quantityArr[i]; j ++) {
+              if ($.isEmptyObject(obj.order)) {
+                obj['order'][`${j+1}`] = nameArr[i];
+              } else {
+                let last_key = Number(Object.keys(obj['order'])[(Object.keys(obj['order']).length) - 1]);
+                obj['order'][`${last_key+1}`] = nameArr[i];
+              }
             }
           }
-        }
-          $.ajax({
-            type: "POST",
-            url: "/order",
-            data: JSON.stringify(obj),
-            contentType: "application/json",
-            success: function(msg) {
+            $.ajax({
+              type: "POST",
+              url: "/order",
+              data: JSON.stringify(obj),
+              contentType: "application/json",
+              success: function(msg) {
                 console.log(msg);
-            },
-            error: function(msg) {
-            console.log('error');
-            }
-        });
+                let successOrder = $('<div></div>').attr('class', 'successMSG').css({ position: "fixed", width: "70vh", bottom: "30%", display: "none", padding: "5rem 0",'z-index': '20', left: "13vw", "text-align":"center", "background-color":"white", "border-radius":"7px", "box-shadow":"0 1px 5px #000" });
+                successOrder.append($('<h3></h3>').attr('class','text-center').text('Order sent!'));
+                successOrder.append($('<p></p>').attr('class','text-center my-5 px-5').text('Your order has been placed!. An SMS message will be sent to your phone with the order details.'));
+
+                //Append and Display Error MSG.
+                $('body').prepend(successOrder);
+                $('.successMSG').fadeIn('slow', 'linear');
+                setTimeout(() => {
+                  $('.successMSG').fadeOut('slow', 'linear');
+                  setTimeout(() => {
+                    $('.successMSG').remove();
+                  }, 800);
+                }, 3000);
+              },
+              error: function(msg) {
+              console.log('error');
+              }
+          });
+        }
   });
 });
