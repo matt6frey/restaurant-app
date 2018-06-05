@@ -1,3 +1,4 @@
+// Comment this line in for Localhost
 //require('dotenv').config();
 
 module.exports = {
@@ -18,12 +19,13 @@ module.exports = {
     },
     seeds: {
       directory: './db/seeds'
-    }
+    },
+    pool: { min:0, max: 7 }
   },
 
   production: {
     client: 'pg',
-    connection: process.env.DATABASE_URL + '?ssl=true',
+    connection: process.env.DATABASE_URL,
     pool: {
       min: 2,
       max: 10

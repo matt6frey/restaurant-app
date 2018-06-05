@@ -1,5 +1,6 @@
 "use strict";
 
+// Comment this line in for Localhost
 //require('dotenv').config();
 
 const PORT        = process.env.PORT || 8080;
