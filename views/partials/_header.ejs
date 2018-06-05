@@ -12,7 +12,7 @@
 
     <!-- App CSS -->
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/nu.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/main.css" type="text/css" />
 
   </head>
   <body>
@@ -22,19 +22,8 @@
       <h1>The Bird</h1>
 
       <div class='rwd-menu'>
-        <button class=".btn"><i class="fas fa-bars 2x"></i></button>
+        <button class="btn"><img width="25px" height="auto" src="/images/menu.png"></button>
       </div>
-      <!-- This button should ONLY be shown on index when menu IS NOT open -->
-     <button class="menu btn btn-primary" type="submit">
-      <span class="menu_text">Menu</span>
-     </button>
-     <!-- This button should ONLY be shown on index when menu IS NOT open -->
-
-     <!-- This button should be displayed in ALL other cases on EVERY other page -->
-     <button class="home btn btn-primary" type="submit">
-      <span class="home_text">Home</span>
-     </button>
-     <!-- This button should be displayed in ALL other cases on EVERY other page -->
 
      <!-- If on dashboard or order pages, check order not shown -->
      <button class="check_order btn btn-primary" type="submit">
@@ -42,7 +31,7 @@
      </button>
 
      <form name ='check_order_form' id='check_order_form' action='/.../' method='...'>
-      <input name="check_order_text" class="check_order_text form-control d-inline-block my-3" type="number">
+      <input name="check_order_text" class="check_order_text form-control d-inline-block my-3" type="number" min="1" required>
       <button class="check btn btn-primary" type="submit">
        <span class="check_button_text">Check</span>
       </button>

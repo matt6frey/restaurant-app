@@ -2,7 +2,7 @@
 <html lang="en">
   <% include ./partials/_header.ejs %>
 
-      <section class="dashboard_categories text-center pt-3 mb-3">
+      <section class="dashboard-categories text-center pt-3 mb-3">
         <button class="pending btn" type="submit">
           Pending
         </button>
@@ -18,7 +18,6 @@
        <section class="order_container_header">
         <span class="order_id">Order ID: <%= item.order_id %></span>
         <span class="date">Time of Order: <%= item.time_ordered %></span>
-        <span class="total">Total: $<%= Number(item.total_price).toFixed(2) %></span>
        </section>
        <% for (let prop in item.items) { %>
         <section class="order-details">
@@ -34,6 +33,7 @@
         </section>
          <% } %>
         <section class="order_container_footer">
+          <span class="total">Total: $<%= Number(item.total_price).toFixed(2) %></span>
           <!-- toggle between these -->
           <form name='notified_form' class='notified_form' action='/notify' method='POST'>
             <i class="fa fa-check-circle"></i>
@@ -41,7 +41,7 @@
           </form>
           <form name='notify_form' class='notify_form' action='/notify' method='POST'>
             <input type="hidden" value="<%= item.order_id %>" class="hidden-order-id">
-            <input type="number" name='eta' class="notify_text" placeholder="ETA" required>
+            <input type="number" name='eta' class="notify_text" placeholder="ETA" min="1" required>
             <button class="notify" type="submit">
              <span class="notify_button_text">Notify</span>
             </button>

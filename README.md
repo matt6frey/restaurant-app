@@ -1,14 +1,23 @@
-# Node Skeleton
+# Restaurant-app
 
-## Project Setup
+Restaurant-app is a pick up ordering service that allows for SMS communication to customer on order ready.
 
-1. Create your own empty repo on GitHub
-2. Clone this repository (do not fork)
-  - Suggestion: When cloning, specify a different folder name that is relevant to your project
-3. Remove the git remote: `git remote rm origin`
-4. Add a remote for your origin: `git remote add origin <your github repo URL>`
-5. Push to the new origin: `git push -u origin master`
-6. Verify that the skeleton code now shows up in your repo on GitHub
+This app has 3 main pages:
+-A home page which displays the restaurant's menu and allows users to place and check on orders
+-A order page which allows users to check on their order details
+-A dashboard page which allows owners to notify customers of time of order completion and check on pending and completed orders
+
+It is built using HTML, SASS, JS, jQuery and AJAX front-end skills, and Express and PostgreSQL back-end skills.
+
+## Final Product
+
+Home Page
+!["Screenshot of home page"](https://github.com/moeenah/Restaurant-app/tree/master/docs/home_page.png)
+Customer's order details
+!["Screenshot of sample customer's order details"](https://github.com/moeenah/Restaurant-app/tree/master/docs/order_page.png)
+Owner's dashboard
+!["Screenshot of sample owner's dashboard page"](https://github.com/moeenah/Restaurant-app/tree/master/docs/dashboard_page.png)
+
 
 ## Getting Started
 
@@ -25,5 +34,22 @@
 
 ## Dependencies
 
-- Node 5.10.x or above
-- NPM 3.8.x or above
+- Express
+- Node
+- NPM
+- Body-parser
+- Chance
+- MD5
+- Mongodb
+- Bcryptjs
+- Dotenv
+- EJS
+- Knex
+- Knex-logger
+- Minimist
+- Moment
+- Moment-timezone
+- Morgan
+- Pg
+- Sass
+- Twilio

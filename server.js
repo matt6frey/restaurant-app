@@ -276,78 +276,22 @@ app.get("/dashboard", (req, res) => {
 
 });
 
-
-// To place orders
-app.post('/order', (req,res) => {
- const uName = req.body.name;
- const uPhone = Number(req.body.phone);
- const orderedAt = moment(new Date()).tz('America/Edmonton').format();
- const timeDisplay = moment(new Date()).tz('America/Edmonton').format("dddd, MMMM Do YYYY, h:mm:ss a");
- let orderedItems = Object.values(req.body.order);
- let eta;
-
- console.log(orderedAt);
-
- let options = {
-      year: "numeric", month: "short",
-      day: "numeric", hour: "2-digit", minute: "2-digit"
-    }; // For time format
-
- knex.from('users').where('name', uName).select('unique_id').then( function (resp) {
-   if(resp.length < 1) {
-     //create user
-     knex('users').insert({ name: uName, phone_num: uPhone }).returning('*').then( function (newUser) {
-       // creates ticket
-       knex('order_ticket').insert({ user_id: newUser[0].unique_id, time_ordered: orderedAt }).returning('*').then( function (newOrder) {
-         orderedItems.map( (orderedItem) => {
-            // get menu items
-            knex('menu').where('name', orderedItem).select('*').then((item) => {
-              // insert menu items
-              knex('order_list').insert({ menu_id: item[0].unique_id, order_id: newOrder[0].unique_id, eta: Number(item[0].eta) }).returning('*').then( function (result) {
-                 //console.log("FROM RESULTS: ", result);
-                });
-              })
-            });
-            client.messages.create({
-              body: `Hey Boss! You have a new order, order at ${ timeDisplay }. To see the order, check out: http://localhost:8080/dashboard`,
-              to: `+1${ process.env.RESTAURANT_NUM }`,  // Text this number
-              from: `+${ process.env.NUM }` // From a valid Twilio number
-            })
-            .then((message) => console.log(message.sid));
-           res.redirect('/');
-       });
-     });
-   } else {
-     // creates ticket
-     knex('order_ticket').insert({ user_id: resp[0].unique_id, time_ordered: orderedAt }).returning('*').then( function (newOrder) {
-           orderedItems.map( (orderedItem) => {
-            // get menu items
-            knex('menu').where('name', orderedItem).select('*').then((item) => {
-              // insert menu items
-              knex('order_list').insert({ menu_id: item[0].unique_id, order_id: newOrder[0].unique_id, eta: Number(item[0].eta) }).returning('*').then( function (result) {
-                 //console.log("FROM RESULTS: ", result);
-                });
-              })
-            });
-           client.messages.create({
-              body: `Hey, You have a new order, order at ${ orderedAt }. To see the order, check out: http://localhost:8080/dashboard`,
-              to: `+1${ process.env.RESTAURANT_NUM }`,  // Text this number
-              from: `+${ process.env.NUM }` // From a valid Twilio number
-            })
-            .then((message) => console.log(message.sid));
-           res.redirect('/');
-          });
-   }
- });
-});
-
 // Route for user order
 app.get('/order/:id', (req,res) => {
  const orderID = req.params.id;
-
+ const RE = new RegExp(/[a-zA-Z]/g);
+  if(orderID.match(RE) !== null) {
+    // if URL contains string, redirect to home.
+    res.redirect('/');
+  } else {
  let finalArray = [];
  knex('order_list').join('menu','order_list.menu_id', 'menu.unique_id').join('order_ticket','order_list.order_id', 'order_ticket.unique_id').select('order_list.order_id', 'menu.unique_id', 'name', 'description', 'price', 'time_ordered').where('order_list.order_id', '=', `${ orderID }`).then( (allOrders) => {
   //debug allOrders result: console.log(allOrders)
+    if(allOrders.length === 0) {
+      res.redirect('/');
+    }
+
+
     let marker = '';
     let namePos = 0;
     let totalPrice = 0;
@@ -481,9 +425,84 @@ app.get('/order/:id', (req,res) => {
     res.status(200).render("order", vars);
 
   });
+  }
 });
 
+
+app.get('/order', (req, res) => {
+  res.redirect('/');
+});
+
+// To place orders
+app.post('/order', (req,res) => {
+  if(Object.keys(req.body).length === 0) {
+    res.redirect('/');
+  }
+ const uName = req.body.name;
+ const uPhone = Number(req.body.phone);
+ const orderedAt = moment(new Date()).tz('America/Edmonton').format();
+ const timeDisplay = moment(new Date()).tz('America/Edmonton').format("dddd, MMMM Do YYYY, h:mm:ss a");
+ let orderedItems = Object.values(req.body.order);
+ let eta;
+
+ console.log(orderedAt);
+
+ let options = {
+      year: "numeric", month: "short",
+      day: "numeric", hour: "2-digit", minute: "2-digit"
+    }; // For time format
+
+ knex.from('users').where('name', uName).select('unique_id').then( function (resp) {
+   if(resp.length < 1) {
+     //create user
+     knex('users').insert({ name: uName, phone_num: uPhone }).returning('*').then( function (newUser) {
+       // creates ticket
+       knex('order_ticket').insert({ user_id: newUser[0].unique_id, time_ordered: orderedAt }).returning('*').then( function (newOrder) {
+         orderedItems.map( (orderedItem) => {
+            // get menu items
+            knex('menu').where('name', orderedItem).select('*').then((item) => {
+              // insert menu items
+              knex('order_list').insert({ menu_id: item[0].unique_id, order_id: newOrder[0].unique_id, eta: Number(item[0].eta) }).returning('*').then( function (result) {
+                 //console.log("FROM RESULTS: ", result);
+                });
+              })
+            });
+            client.messages.create({
+              body: `Hey Boss! You have a new order, order at ${ timeDisplay }. To see the order, check out: http://localhost:8080/dashboard`,
+              to: `+1${ process.env.RESTAURANT_NUM }`,  // Text this number
+              from: `+${ process.env.NUM }` // From a valid Twilio number
+            })
+            .then((message) => console.log(message.sid));
+           res.redirect('/');
+       });
+     });
+   } else {
+     // creates ticket
+     knex('order_ticket').insert({ user_id: resp[0].unique_id, time_ordered: orderedAt }).returning('*').then( function (newOrder) {
+           orderedItems.map( (orderedItem) => {
+            // get menu items
+            knex('menu').where('name', orderedItem).select('*').then((item) => {
+              // insert menu items
+              knex('order_list').insert({ menu_id: item[0].unique_id, order_id: newOrder[0].unique_id, eta: Number(item[0].eta) }).returning('*').then( function (result) {
+                 //console.log("FROM RESULTS: ", result);
+                });
+              })
+            });
+           client.messages.create({
+              body: `Hey, You have a new order, order at ${ orderedAt }. To see the order, check out: http://localhost:8080/dashboard`,
+              to: `+1${ process.env.RESTAURANT_NUM }`,  // Text this number
+              from: `+${ process.env.NUM }` // From a valid Twilio number
+            })
+            .then((message) => console.log(message.sid));
+           res.redirect('/');
+          });
+   }
+ });
+});
+
+
 app.post('/notify', (req,res) => {
+
   const orderID = req.body.id; // Order for customer
   const eta = req.body.eta; // Restaurant's ETA
 

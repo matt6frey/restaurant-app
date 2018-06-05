@@ -1,60 +1,430 @@
-.company_pic {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 150px;
+body {
+  background-image: url(https://design-milk.com/images/2014/09/Bibo-Restaurant-Lounge-Substance-1.jpg);
+  background-size: cover;
+  background-attachment: fixed;
 }
 
-button {
-  width: 115px;
-  height: 60px;
-  background-color: white;
-  border-color: black;
-  border-width: 1px;
-  border-radius: 5px;
-  font-size: 1.2em;
-  cursor: pointer;
-  outline: 0;
+.nav {
+  background-color: #fff;
+  display: inline-block;
+  width: 30%;
+  text-align: center;
+  padding: 1rem;
+  position: fixed;
+  right: 0;
+  height: 100vh;
+  z-index: 10;
+  /* form in nav */
 }
-
-button .button_text {
-  font-weight: 500;
-  color: #000;
+.nav .logo {
+  width: 100%;
+  max-width: 200px;
 }
-
-.check {
-  height: 30px;
+.nav h1 {
+  margin: 1rem;
 }
-
-.place_order {
-  height: 30px;
+.nav button {
+  margin: 1.5rem 0;
 }
-
-button:hover {
-  background-color: #e8a31f;
+.nav #check_order_form {
+  display: none;
 }
-
-button:hover .button_text {
-  color: black;
-}
-
-#check_order_form .check_order_text {
-  resize: none;
-  border-radius: 5px;
+.nav .check_order_text {
   width: 100px;
-  height: 30px;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
-#place_order_form .name {
-  resize: none;
-  border-radius: 5px;
-  width: 200px;
-  height: 30px;
+/* menu items area */
+.order_container {
+  margin: 0.5rem 0;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.65);
 }
 
-#place_order_form .number {
-  resize: none;
-  border-radius: 5px;
-  width: 200px;
-  height: 30px;
+.order_container:first-child {
+  margin-top: 5.5rem;
 }
+
+.menu_container {
+  padding: 1.5rem;
+  position: absolute;
+  left: 0;
+  width: 70%;
+  padding-bottom: 7rem;
+}
+.menu_container section.categories {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.menu_container section.categories button,
+.menu_container #order_form input[type=submit],
+.menu_container button.order, .menu_container button.notify,
+.menu_container .notified_form button {
+  margin: 0 1rem;
+  background-color: transparent;
+  color: #fff;
+  border: solid 2px #e87503;
+  background-color: #e87503;
+}
+.menu_container div.breakfast,
+.menu_container div.lunch,
+.menu_container div.dinner,
+.menu_container .order_container {
+  margin: 0.5rem 0;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.65);
+}
+.menu_container .order_container {
+  width: 67%;
+  padding: 1rem 0;
+}
+.menu_container div.breakfast img,
+.menu_container div.lunch img,
+.menu_container div.dinner img {
+  display: inline-block;
+  position: relative;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  vertical-align: top;
+  box-shadow: 0 0 5px #000;
+}
+
+section.dashboard-categories.text-center.pt-3.mb-3 {
+  width: 67%;
+}
+
+.order-details img {
+  display: inline-block;
+  position: relative;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  vertical-align: top;
+  box-shadow: 0 0 5px #000;
+}
+
+div.menu-item-info, .order_container {
+  display: inline-block;
+  position: relative;
+  width: 67%;
+  margin-left: 1rem;
+}
+
+span.food_name {
+  color: #e87503;
+  display: block;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+span.food_description {
+  color: #fff;
+  display: block;
+  margin: 1rem 0;
+}
+
+.qty-selection {
+  text-align: right;
+  padding: 1rem 0;
+}
+
+span.food_price {
+  margin-right: 1rem;
+  color: #e87503;
+  font-weight: bold;
+}
+
+.qty-selection > input {
+  width: 25px;
+  height: 25px;
+  margin: 0;
+  vertical-align: bottom;
+  box-shadow: 0 0 5px #000;
+}
+
+select.dropdown {
+  padding: 0.25rem;
+  background-color: #fff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  color: #666;
+  box-shadow: 0 0 5px #000;
+}
+
+#place_order_form input[type=submit] {
+  padding: 0.5rem 1rem;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -o-border-radius: 7px;
+  border-radius: 7px;
+  color: #000;
+  bottom: 0;
+  background-color: #e87503;
+  border-color: #e87503;
+  text-align: right;
+  display: block;
+  position: absolute;
+  right: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+#place_order_form {
+  background-color: #e87503;
+  padding: 1rem;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 70%;
+  text-align: right;
+  -webkit-transition: "bottom 0.5s ease-in-out";
+  -moz-transition: "bottom 0.5s ease-in-out";
+  -ms-transition: "bottom 0.5s ease-in-out";
+  -o-transition: "bottom 0.5s ease-in-out";
+  transition: "bottom 0.5s ease-in-out";
+}
+#place_order_form input.name, #place_order_form input.number {
+  padding: 0.5rem;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  border: solid 2px #fff;
+}
+#place_order_form span.name_text, #place_order_form span.number_text {
+  font-size: 1.15rem;
+  margin-right: 0.5rem;
+}
+#place_order_form span.number_text {
+  margin-left: 1.5rem;
+}
+#place_order_form input[type=submit] {
+  display: inline-block;
+  position: static;
+  left: inherit;
+  bottom: inherit;
+  background-color: transparent;
+  border: solid 2px #fff;
+  color: #fff;
+  margin-left: 1rem;
+  margin-right: 0.5rem;
+  right: 0;
+}
+#place_order_form input[type=submit]:hover {
+  border: solid 2px #bb5218;
+  background-color: #bb5218;
+  color: #fff;
+}
+
+span.total {
+  position: absolute;
+  right: 1.25rem;
+}
+
+.order_container_header {
+  margin: 1rem 0;
+  height: 35px;
+  text-align: center;
+  color: #fff;
+}
+
+span.order_id {
+  position: absolute;
+  left: 1rem;
+}
+
+span.date {
+  position: absolute;
+}
+
+span.quantity {
+  color: #fff;
+}
+
+input.notify_text {
+  padding: 0.25rem;
+  border: solid 1px #666;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  margin-right: 0.5rem;
+  text-align: center;
+  width: 85px;
+}
+
+.notify_form {
+  margin: 1rem 1rem 1rem 0;
+}
+
+.notify_form, .notified_form {
+  text-align: right;
+}
+
+.notified_form {
+  display: none;
+}
+
+button.notify, .notified_form button {
+  padding: 0.25rem 1rem;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.notified_form button {
+  margin: 1rem 1rem 1rem 0;
+}
+
+.notified_form i, .notifed_text {
+  color: #fff;
+  margin-right: 1rem;
+}
+
+.order-h1 {
+  width: 268px;
+  right: -1rem;
+  top: 0.5rem;
+  margin: 0 auto 0.5rem;
+  position: relative;
+  color: #000;
+  background-color: #e87503;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -o-border-radius: 7px;
+  border-radius: 7px;
+}
+
+.order_container_footer p {
+  height: 15px;
+}
+.order_container_footer span.total {
+  color: #fff;
+  position: absolute;
+  left: 1.25rem;
+  bottom: 1rem;
+  font-weight: bold;
+}
+
+.rwd-menu {
+  display: none;
+}
+
+/* Bootstrap Over-rides */
+.btn, button.notify, .notified_form button {
+  background-color: #e87503;
+  border-color: #e87503;
+}
+
+.btn:hover, .btn:active, button.notify, .notified_form button {
+  background-color: #ff7f00;
+  border-color: #ff7f00;
+}
+
+/* media queries */
+@media screen and (max-width: 800px) {
+  .nav {
+    width: 100%;
+    height: 70px;
+    top: 0;
+    right: inherit;
+  }
+  .nav .logo {
+    width: 40px;
+    diosplay: inline-block;
+    float: left;
+    margin-right: 1rem;
+  }
+  .nav h1 {
+    font-size: 1.5rem;
+    margin: 0.25rem;
+    text-align: left;
+  }
+  .nav button {
+    display: block;
+    margin: 0.5rem 0;
+  }
+
+  #check_order_form check.btn.btn-primary {
+    text-align: center;
+    display: block;
+    margin: 1rem auto 2rem;
+  }
+
+  .menu_container {
+    top: 4rem;
+    width: 100%;
+    padding: 0.5rem 0.5rem 14rem;
+  }
+
+  #place_order_form {
+    width: 100%;
+    bottom: 0;
+  }
+
+  section.categories button {
+    margin: 1rem 0;
+  }
+
+  body:nth-child(2) {
+    margin-top: 5.5rem;
+  }
+
+  .order_container {
+    width: 95%;
+    margin-left: 3%;
+  }
+  .order_container .order-details .logo {
+    text-align: center;
+    position: relative;
+    left: 1.5rem;
+    width: 100%;
+  }
+
+  .rwd-menu {
+    position: fixed;
+    top: 0.5rem;
+    right: 1.5rem;
+    z-index: 20;
+    display: block;
+  }
+
+  .menu.btn.btn-primary,
+.home.btn.btn-primary,
+.check_order.btn.btn-primary,
+.info,
+.location {
+    display: none;
+    width: 100%;
+  }
+
+  .check_order.btn.btn-primary {
+    margin-top: 2.5rem;
+  }
+
+  form#check_order_form button {
+    margin: 1rem auto 2rem;
+  }
+
+  #place_order_form {
+    text-align: right;
+    bottom: 0;
+  }
+  #place_order_form input.name, #place_order_form input.number {
+    width: 150px;
+    margin-bottom: 1rem;
+  }
+}
+
+/*# sourceMappingURL=../public/styles/main.css.map */
