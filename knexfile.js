@@ -1,5 +1,5 @@
 // Comment this line in for Localhost
-require('dotenv').load();
+// require('dotenv').load();
 
 module.exports = {
 
@@ -25,9 +25,16 @@ module.exports = {
 
   production: {
     client: 'postgres',
-    connection: process.env.DATABASE_URL,
+    connection: {
+      host     : process.env.DATABASE_URL || process.env.DB_HOST,
+      user     : process.env.DB_USER,
+      password : process.env.DB_PASS,
+      database : process.env.DB_NAME || 'midterm',
+      port     : process.env.DB_PORT,
+      ssl      : process.env.DB_SSL
+    },
     pool: {
-      min: 0,
+      min: 2,
       max: 10
     },
     migrations: {

@@ -1,7 +1,7 @@
 "use strict";
 
 // Comment this line in for Localhost
-require('dotenv').load();
+// require('dotenv').load();
 
 const PORT        = process.env.PORT || 8080;
 const ENV         = process.env.ENV || "development";
