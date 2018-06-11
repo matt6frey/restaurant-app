@@ -467,7 +467,7 @@ app.post('/order', (req,res) => {
               })
             });
             client.messages.create({
-              body: `Hey Boss! You have a new order, order at ${ timeDisplay }. To see the order, check out: http://localhost:8080/dashboard`,
+              body: `Hey Boss! You have a new order, order at ${ timeDisplay }. To see the order, check out: http://sms-restaurant-app.herokuapp.com/dashboard`,
               to: `+1${ process.env.RESTAURANT_NUM }`,  // Text this number
               from: `+${ process.env.NUM }` // From a valid Twilio number
             })
@@ -488,7 +488,7 @@ app.post('/order', (req,res) => {
               })
             });
            client.messages.create({
-              body: `Hey, You have a new order, order at ${ orderedAt }. To see the order, check out: http://localhost:8080/dashboard`,
+              body: `Hey, You have a new order, order at ${ orderedAt }. To see the order, check out: http://sms-restaurant-app.herokuapp.com/dashboard`,
               to: `+1${ process.env.RESTAURANT_NUM }`,  // Text this number
               from: `+${ process.env.NUM }` // From a valid Twilio number
             })
@@ -516,7 +516,7 @@ app.post('/notify', (req,res) => {
     const name = customer[0].name;
     const phoneNum = customer[0].phone_num;
     const location = "111 Main Street NW, Calgary, AB, T1Y 1P4";
-    const url = 'http://localhost:8080/order/' + orderID;
+    const url = 'http://sms-restaurant-app.herokuapp.com/order/' + orderID;
 
     // Send initial notification
     client.messages.create({
