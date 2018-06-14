@@ -27,7 +27,7 @@ $('.rwd-menu').on('click', () => {
   const checkOrderBtn = $('.check_order.btn.btn-primary');
   const sectionInfo = $('.info');
   const location = $('.location').attr('style','text-align:center;');
-  const menuBG = $('<div></div>').attr({ class: "menuBG", style: "position: fixed; z-index:9; top:0; left: 0; background-color: #fff; height: 100vh; width: 100vh; display:none;"});
+  const menuBG = $('<div></div>').attr({ class: "menuBG", style: "position: fixed; z-index:9; top:0; left: 0; background-color: #fff; height: 100vh; width: 100%; display:none;"});
 
   if(menuDisplay === false) {
     menuDisplay = true;
