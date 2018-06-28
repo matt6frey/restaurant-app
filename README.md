@@ -3,9 +3,9 @@
 Restaurant-app is a pick up ordering service that allows for SMS communication to customer on order ready.
 
 This app has 3 main pages:
--A home page which displays the restaurant's menu and allows users to place and check on orders
--A order page which allows users to check on their order details
--A dashboard page which allows owners to notify customers of time of order completion and check on pending and completed orders
+1. A home page which displays the restaurant's menu and allows users to place and check on orders
+2. A order page which allows users to check on their order details
+3. A dashboard page which allows owners to notify customers of time of order completion and check on pending and completed orders
 
 It is built using HTML, SASS, JS, jQuery and AJAX front-end skills, and Express and PostgreSQL back-end skills.
 
