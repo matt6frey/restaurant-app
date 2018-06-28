@@ -14,7 +14,7 @@ It is built using HTML, SASS, JS, jQuery and AJAX front-end skills, and Express 
 Home Page
 !["Screenshot of home page"](https://github.com/moeenah/Restaurant-app/blob/master/docs/home_page.png)
 Message on successful order
-!["Screenshot of successful order message"](https://github.com/moeenah/Restaurant-app/blob/master/docs/order_success.png)
+!["Screenshot of successful order message"](https://github.com/moeenah/Restaurant-app/blob/master/docs/ordered_success.png)
 Customer's order details
 !["Screenshot of sample customer's order details"](https://github.com/moeenah/Restaurant-app/blob/master/docs/order_page.png)
 Owner's dashboard
